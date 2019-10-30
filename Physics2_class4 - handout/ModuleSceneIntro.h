@@ -22,6 +22,12 @@ public:
 	p2List<PhysBody*> boxes;
 	p2List<PhysBody*> ricks;
 
+	PhysBody* planet_1;
+	PhysBody* planet_2;
+	PhysBody* planet_3;
+	PhysBody* planet_4;
+	PhysBody* planet_5;
+	PhysBody* planet_6;
 	PhysBody* sensor;
 	bool sensed;
 

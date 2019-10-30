@@ -34,7 +34,26 @@ bool ModuleSceneIntro::Start()
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
+	
 	//scene elements
+	planet_1 = new PhysBody();
+	planet_1 = App->physics->CreateCircle(302, 297, 33, b2_staticBody);
+	
+	planet_2 = new PhysBody();
+	planet_2 = App->physics->CreateCircle(245, 373, 13, b2_staticBody);
+
+	planet_3 = new PhysBody();
+	planet_3 = App->physics->CreateCircle(276, 435, 13, b2_staticBody);
+
+	planet_4 = new PhysBody();
+	planet_4 = App->physics->CreateCircle(215, 465, 13, b2_staticBody);
+
+	planet_5 = new PhysBody();
+	planet_5 = App->physics->CreateCircle(344, 516, 32, b2_staticBody);
+
+	planet_6 = new PhysBody();
+	planet_6 = App->physics->CreateCircle(93, 624, 34, b2_staticBody);
+
 	int top_block[72] = {
 	259, 217,
 	243, 224,
@@ -108,6 +127,67 @@ bool ModuleSceneIntro::Start()
 	};
 
 	App->physics->CreateChain(405, 213, right_block, 54, b2_staticBody);
+
+	int left_block_two[50] = {
+	17, 85,
+	10, 79,
+	4, 66,
+	2, 50,
+	2, 28,
+	3, 19,
+	5, 11,
+	10, 3,
+	15, 3,
+	18, 5,
+	20, 10,
+	22, 18,
+	25, 28,
+	29, 40,
+	34, 51,
+	40, 61,
+	47, 72,
+	56, 81,
+	62, 86,
+	65, 93,
+	64, 98,
+	59, 100,
+	47, 100,
+	33, 96,
+	23, 90
+	};
+
+	App->physics->CreateChain(109, 675, left_block_two, 50, b2_staticBody);
+
+	int right_block_two[50] = {
+	57, 3,
+	51, 3,
+	48, 7,
+	45, 15,
+	43, 23,
+	40, 33,
+	37, 42,
+	31, 55,
+	25, 64,
+	18, 74,
+	10, 83,
+	5, 87,
+	2, 93,
+	3, 98,
+	8, 100,
+	15, 100,
+	27, 98,
+	41, 91,
+	53, 83,
+	60, 74,
+	64, 59,
+	65, 48,
+	64, 27,
+	63, 16,
+	60, 8
+	};
+
+	App->physics->CreateChain(337, 675, right_block_two, 50, b2_staticBody);
+
 	return ret;
 }
 
@@ -132,57 +212,57 @@ update_status ModuleSceneIntro::Update()
 		ray.y = App->input->GetMouseY();
 	}
 
-	/*if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody));
 		circles.getLast()->data->listener = this;
-	}*/
+	}
 
 	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50));
 	}
 
-	//if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	//{
-	//	// Pivot 0, 0
-	//	int rick_head[64] = {
-	//		14, 36,
-	//		42, 40,
-	//		40, 0,
-	//		75, 30,
-	//		88, 4,
-	//		94, 39,
-	//		111, 36,
-	//		104, 58,
-	//		107, 62,
-	//		117, 67,
-	//		109, 73,
-	//		110, 85,
-	//		106, 91,
-	//		109, 99,
-	//		103, 104,
-	//		100, 115,
-	//		106, 121,
-	//		103, 125,
-	//		98, 126,
-	//		95, 137,
-	//		83, 147,
-	//		67, 147,
-	//		53, 140,
-	//		46, 132,
-	//		34, 136,
-	//		38, 126,
-	//		23, 123,
-	//		30, 114,
-	//		10, 102,
-	//		29, 90,
-	//		0, 75,
-	//		30, 62
-	//	};
+	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+	
+	int rick_head[64] = {
+			14, 36,
+			42, 40,
+			40, 0,
+			75, 30,
+			88, 4,
+			94, 39,
+			111, 36,
+			104, 58,
+			107, 62,
+			117, 67,
+			109, 73,
+			110, 85,
+			106, 91,
+			109, 99,
+			103, 104,
+			100, 115,
+			106, 121,
+			103, 125,
+			98, 126,
+			95, 137,
+			83, 147,
+			67, 147,
+			53, 140,
+			46, 132,
+			34, 136,
+			38, 126,
+			23, 123,
+			30, 114,
+			10, 102,
+			29, 90,
+			0, 75,
+			30, 62
+		};
 
-	//	ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64));
-	//}
+		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody));
+	}
 
 	// Prepare for raycast ------------------------------------------------------
 	

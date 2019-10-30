@@ -25,13 +25,89 @@ bool ModuleSceneIntro::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
+	//Loading textures
 	circle = App->textures->Load("pinball/wheel.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
+	background = App->textures->Load("assets/pinball_board1.png");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
+	//scene elements
+	int top_block[72] = {
+	259, 217,
+	243, 224,
+	227, 234,
+	214, 244,
+	200, 254,
+	186, 263,
+	173, 269,
+	160, 272,
+	152, 271,
+	146, 267,
+	142, 259,
+	143, 251,
+	148, 244,
+	157, 235,
+	168, 225,
+	182, 212,
+	196, 202,
+	211, 192,
+	227, 182,
+	244, 174,
+	258, 170,
+	278, 169,
+	296, 172,
+	312, 177,
+	328, 182,
+	342, 188,
+	347, 193,
+	349, 201,
+	345, 206,
+	337, 211,
+	325, 216,
+	310, 219,
+	297, 220,
+	284, 218,
+	274, 216,
+	266, 215
+	};
+
+
+	App->physics->CreateChain( 0, 1, top_block, 72, b2_staticBody);
+
+	int right_block[54] = {
+	65, 231,
+	68, 47,
+	64, 34,
+	56, 22,
+	48, 14,
+	38, 7,
+	26, 3,
+	16, 3,
+	8, 9,
+	4, 19,
+	3, 40,
+	6, 51,
+	10, 59,
+	17, 66,
+	22, 74,
+	26, 84,
+	26, 93,
+	22, 103,
+	20, 115,
+	20, 141,
+	23, 161,
+	26, 178,
+	32, 196,
+	38, 209,
+	45, 220,
+	52, 228,
+	58, 233
+	};
+
+	App->physics->CreateChain(405, 213, right_block, 54, b2_staticBody);
 	return ret;
 }
 
@@ -46,6 +122,9 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+
+	App->renderer->Blit(background, 0, 0, NULL);
+
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		ray_on = !ray_on;
@@ -53,57 +132,57 @@ update_status ModuleSceneIntro::Update()
 		ray.y = App->input->GetMouseY();
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	/*if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25));
 		circles.getLast()->data->listener = this;
-	}
+	}*/
 
 	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50));
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		// Pivot 0, 0
-		int rick_head[64] = {
-			14, 36,
-			42, 40,
-			40, 0,
-			75, 30,
-			88, 4,
-			94, 39,
-			111, 36,
-			104, 58,
-			107, 62,
-			117, 67,
-			109, 73,
-			110, 85,
-			106, 91,
-			109, 99,
-			103, 104,
-			100, 115,
-			106, 121,
-			103, 125,
-			98, 126,
-			95, 137,
-			83, 147,
-			67, 147,
-			53, 140,
-			46, 132,
-			34, 136,
-			38, 126,
-			23, 123,
-			30, 114,
-			10, 102,
-			29, 90,
-			0, 75,
-			30, 62
-		};
+	//if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	//{
+	//	// Pivot 0, 0
+	//	int rick_head[64] = {
+	//		14, 36,
+	//		42, 40,
+	//		40, 0,
+	//		75, 30,
+	//		88, 4,
+	//		94, 39,
+	//		111, 36,
+	//		104, 58,
+	//		107, 62,
+	//		117, 67,
+	//		109, 73,
+	//		110, 85,
+	//		106, 91,
+	//		109, 99,
+	//		103, 104,
+	//		100, 115,
+	//		106, 121,
+	//		103, 125,
+	//		98, 126,
+	//		95, 137,
+	//		83, 147,
+	//		67, 147,
+	//		53, 140,
+	//		46, 132,
+	//		34, 136,
+	//		38, 126,
+	//		23, 123,
+	//		30, 114,
+	//		10, 102,
+	//		29, 90,
+	//		0, 75,
+	//		30, 62
+	//	};
 
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64));
-	}
+	//	ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64));
+	//}
 
 	// Prepare for raycast ------------------------------------------------------
 	

@@ -23,10 +23,10 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	b2RevoluteJointDef def_1;
-	b2RevoluteJointDef def_2;
-	b2RevoluteJoint* joint_1;
-	b2RevoluteJoint* joint_2;
+	b2RevoluteJointDef lflipperdef;
+	b2RevoluteJointDef rflipperdef;
+	b2RevoluteJoint* lflipper_joint;
+	b2RevoluteJoint* rflipper_joint;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
@@ -383,25 +383,25 @@ bool ModuleSceneIntro::Start()
 	
 
 
-	rightflipper = App->physics->CreateRectangle(300, 778, 77, 14, b2_dynamicBody);
-	leftflipper = App->physics->CreateRectangle(215, 774, 77, 14, b2_dynamicBody);
+	rflipper = App->physics->CreateRectangle(300, 778, 77, 14, b2_dynamicBody);
+	lflipper = App->physics->CreateRectangle(215, 774, 77, 14, b2_dynamicBody);
 
 	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.8f);
 	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.8f);
 
-	def_1.Initialize(leftflipper->body, l_flipper_joint->body, l_flipper_joint->body->GetWorldCenter());
-	def_2.Initialize(r_flipper_joint->body, rightflipper->body, r_flipper_joint->body->GetWorldCenter());
+	lflipperdef.Initialize(lflipper->body, l_flipper_joint->body, l_flipper_joint->body->GetWorldCenter());
+	rflipperdef.Initialize(r_flipper_joint->body, rflipper->body, r_flipper_joint->body->GetWorldCenter());
 
-	def_1.enableLimit = true;
-	def_2.enableLimit = true;
+	lflipperdef.enableLimit = true;
+	rflipperdef.enableLimit = true;
 
-	def_1.lowerAngle = -30 * DEGTORAD;
-	def_1.upperAngle = 30 * DEGTORAD;
-	def_2.lowerAngle = -30 * DEGTORAD;
-	def_2.upperAngle = 30 * DEGTORAD;
+	lflipperdef.lowerAngle = -30 * DEGTORAD;
+	lflipperdef.upperAngle = 30 * DEGTORAD;
+	rflipperdef.lowerAngle = -30 * DEGTORAD;
+	rflipperdef.upperAngle = 30 * DEGTORAD;
 
-	joint_1 = (b2RevoluteJoint*)App->physics->world->CreateJoint(&def_1);
-	joint_2 = (b2RevoluteJoint*)App->physics->world->CreateJoint(&def_2);
+	lflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&lflipperdef);
+	rflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&rflipperdef);
 
 
 	return ret;

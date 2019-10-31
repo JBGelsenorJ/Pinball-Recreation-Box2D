@@ -75,12 +75,12 @@ update_status ModulePlayer::Update()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		App->scene_intro->leftflipper->body->ApplyAngularImpulse(-2.0f, true);
+		App->scene_intro->lflipper->body->ApplyAngularImpulse(-2.0f, true);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		App->scene_intro->rightflipper->body->ApplyAngularImpulse(2.0f, true);
+		App->scene_intro->rflipper->body->ApplyAngularImpulse(2.0f, true);
 	}
 	//Restarting game
 	if (restart == true)

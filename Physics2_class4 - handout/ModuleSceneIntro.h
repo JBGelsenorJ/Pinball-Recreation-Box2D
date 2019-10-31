@@ -28,6 +28,10 @@ public:
 	PhysBody* planet_4;
 	PhysBody* planet_5;
 	PhysBody* planet_6;
+	PhysBody* lflipper;
+	PhysBody* rflipper;
+	PhysBody* l_flipper_joint;
+	PhysBody* r_flipper_joint;
 	PhysBody* sensor;
 	bool sensed;
 

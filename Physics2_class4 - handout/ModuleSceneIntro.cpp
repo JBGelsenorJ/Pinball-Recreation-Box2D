@@ -24,6 +24,11 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	b2RevoluteJointDef def_1;
+	b2RevoluteJointDef def_2;
+	b2RevoluteJoint* joint_1;
+	b2RevoluteJoint* joint_2;
+
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	//Loading textures
@@ -39,22 +44,22 @@ bool ModuleSceneIntro::Start()
 	
 	//scene elements
 	planet_1 = new PhysBody();
-	planet_1 = App->physics->CreateCircle(302, 297, 33, b2_staticBody);
+	planet_1 = App->physics->CreateCircle(302, 297, 33, b2_staticBody, 0.8f);
 	
 	planet_2 = new PhysBody();
-	planet_2 = App->physics->CreateCircle(245, 373, 13, b2_staticBody);
+	planet_2 = App->physics->CreateCircle(245, 373, 13, b2_staticBody, 0.8f);
 
 	planet_3 = new PhysBody();
-	planet_3 = App->physics->CreateCircle(276, 435, 13, b2_staticBody);
+	planet_3 = App->physics->CreateCircle(276, 435, 13, b2_staticBody, 0.8f);
 
 	planet_4 = new PhysBody();
-	planet_4 = App->physics->CreateCircle(215, 465, 13, b2_staticBody);
+	planet_4 = App->physics->CreateCircle(215, 465, 13, b2_staticBody, 0.8f);
 
 	planet_5 = new PhysBody();
-	planet_5 = App->physics->CreateCircle(344, 516, 32, b2_staticBody);
+	planet_5 = App->physics->CreateCircle(344, 516, 32, b2_staticBody, 0.8f);
 
 	planet_6 = new PhysBody();
-	planet_6 = App->physics->CreateCircle(93, 624, 34, b2_staticBody);
+	planet_6 = App->physics->CreateCircle(93, 624, 34, b2_staticBody, 0.8f);
 
 	int top_block[72] = {
 	259, 217,
@@ -96,7 +101,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 1.0f);
+	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 0.5);
 
 	int left_block_two[50] = {
 	17, 85,
@@ -126,7 +131,7 @@ bool ModuleSceneIntro::Start()
 	23, 90
 	};
 
-	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody,1.0f);
+	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody, 0.5);
 
 	int right_block_two[50] = {
 	57, 3,
@@ -156,7 +161,7 @@ bool ModuleSceneIntro::Start()
 	60, 8
 	};
 
-	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody, 1.0f);
+	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody, 0.5);
 
 	int pinball_board_top[98] = {
 	16, 338,
@@ -210,7 +215,7 @@ bool ModuleSceneIntro::Start()
 	17, 484
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody, 1.0f);
+	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody, 0.5);
 
 	int pinball_board_bottom_left[74] = {
 	192, 856,
@@ -252,7 +257,7 @@ bool ModuleSceneIntro::Start()
 	202, 854
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody, 1.0f);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody, 0.5);
 
 	int pinball_board_bottom_right[60] = {
 	453, 857,
@@ -288,7 +293,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 1.0f);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 0.5);
 
 
 	int tube[58] = {
@@ -341,7 +346,7 @@ bool ModuleSceneIntro::Start()
 	110, 490
 
 	};
-	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 1.0f);
+	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5);
 
 	int pinball_board_middle_right[60] = {
 	373, 444,
@@ -376,7 +381,30 @@ bool ModuleSceneIntro::Start()
 	376, 447
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 1.0f);
+	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f);
+	
+
+
+	rightflipper = App->physics->CreateRectangle(300, 778, 77, 14, b2_dynamicBody);
+	leftflipper = App->physics->CreateRectangle(215, 774, 77, 14, b2_dynamicBody);
+
+	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.8f);
+	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.8f);
+
+	def_1.Initialize(leftflipper->body, l_flipper_joint->body, l_flipper_joint->body->GetWorldCenter());
+	def_2.Initialize(r_flipper_joint->body, rightflipper->body, r_flipper_joint->body->GetWorldCenter());
+
+	def_1.enableLimit = true;
+	def_2.enableLimit = true;
+
+	def_1.lowerAngle = -30 * DEGTORAD;
+	def_1.upperAngle = 30 * DEGTORAD;
+	def_2.lowerAngle = -30 * DEGTORAD;
+	def_2.upperAngle = 30 * DEGTORAD;
+
+	joint_1 = (b2RevoluteJoint*)App->physics->world->CreateJoint(&def_1);
+	joint_2 = (b2RevoluteJoint*)App->physics->world->CreateJoint(&def_2);
+
 
 	return ret;
 }
@@ -404,13 +432,13 @@ update_status ModuleSceneIntro::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody, 0.6f));
 		circles.getLast()->data->listener = this;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50));
+		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50, b2_dynamicBody));
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)

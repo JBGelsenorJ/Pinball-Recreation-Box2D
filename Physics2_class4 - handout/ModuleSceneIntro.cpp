@@ -94,7 +94,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain( 0, 1, top_block, 72, b2_staticBody);
+	App->physics->CreateChain( 0, 1, top_block, 72, b2_staticBody, 1.0f);
 
 	int right_block[54] = {
 	65, 231,
@@ -126,7 +126,7 @@ bool ModuleSceneIntro::Start()
 	58, 233
 	};
 
-	App->physics->CreateChain(405, 213, right_block, 54, b2_staticBody);
+	App->physics->CreateChain(405, 213, right_block, 54, b2_staticBody,1.0f);
 
 	int left_block_two[50] = {
 	17, 85,
@@ -156,7 +156,7 @@ bool ModuleSceneIntro::Start()
 	23, 90
 	};
 
-	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody);
+	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody,1.0f);
 
 	int right_block_two[50] = {
 	57, 3,
@@ -186,7 +186,7 @@ bool ModuleSceneIntro::Start()
 	60, 8
 	};
 
-	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody);
+	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody, 1.0f);
 
 	int pinball_board_top[98] = {
 	16, 338,
@@ -240,7 +240,7 @@ bool ModuleSceneIntro::Start()
 	17, 484
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody);
+	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody, 1.0f);
 
 	int pinball_board_bottom_left[74] = {
 	192, 856,
@@ -282,7 +282,7 @@ bool ModuleSceneIntro::Start()
 	202, 854
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody, 1.0f);
 
 	int pinball_board_bottom_right[60] = {
 	453, 857,
@@ -317,7 +317,7 @@ bool ModuleSceneIntro::Start()
 	464, 857
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 1.0f);
 	return ret;
 }
 
@@ -391,7 +391,7 @@ update_status ModuleSceneIntro::Update()
 			30, 62
 		};
 
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody));
+		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody, 1.0f));
 	}
 
 	// Prepare for raycast ------------------------------------------------------

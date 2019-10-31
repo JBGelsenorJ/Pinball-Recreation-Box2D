@@ -24,7 +24,7 @@ bool ModulePlayer::Start()
 	ball_texture = App->textures->Load("assets/ball.png");
 	
 	//Bodies
-	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody);
+	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.6f);
 	
 	ballSensor = App->physics->CreateRectangleSensor(472 + 10, 741 + 5, 25, 21);
 	ballSensor->listener = this;
@@ -73,7 +73,15 @@ update_status ModulePlayer::Update()
 		force_counter = 0;
 		
 	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		App->scene_intro->leftflipper->body->ApplyAngularImpulse(-2.0f, true);
+	}
 
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		App->scene_intro->rightflipper->body->ApplyAngularImpulse(2.0f, true);
+	}
 	//Restarting game
 	if (restart == true)
 	{

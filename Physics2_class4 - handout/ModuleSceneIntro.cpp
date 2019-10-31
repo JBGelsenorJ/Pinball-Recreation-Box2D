@@ -94,41 +94,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain( 0, 1, top_block, 72, b2_staticBody, 1.0f);
-
-
-	int right_block[54] = {
-	65, 231,
-	68, 47,
-	64, 34,
-	56, 22,
-	48, 14,
-	38, 7,
-	26, 3,
-	16, 3,
-	8, 9,
-	4, 19,
-	3, 40,
-	6, 51,
-	10, 59,
-	17, 66,
-	22, 74,
-	26, 84,
-	26, 93,
-	22, 103,
-	20, 115,
-	20, 141,
-	23, 161,
-	26, 178,
-	32, 196,
-	38, 209,
-	45, 220,
-	52, 228,
-	58, 233
-	};
-
-	App->physics->CreateChain(405, 213, right_block, 54, b2_staticBody,1.0f);
-
+	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 1.0f);
 
 	int left_block_two[50] = {
 	17, 85,

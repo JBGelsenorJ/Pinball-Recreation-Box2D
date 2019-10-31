@@ -94,7 +94,40 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain( 0, 1, top_block, 72, b2_staticBody);
+	App->physics->CreateChain( 0, 1, top_block, 72, b2_staticBody, 1.0f);
+
+
+	int right_block[54] = {
+	65, 231,
+	68, 47,
+	64, 34,
+	56, 22,
+	48, 14,
+	38, 7,
+	26, 3,
+	16, 3,
+	8, 9,
+	4, 19,
+	3, 40,
+	6, 51,
+	10, 59,
+	17, 66,
+	22, 74,
+	26, 84,
+	26, 93,
+	22, 103,
+	20, 115,
+	20, 141,
+	23, 161,
+	26, 178,
+	32, 196,
+	38, 209,
+	45, 220,
+	52, 228,
+	58, 233
+	};
+
+	App->physics->CreateChain(405, 213, right_block, 54, b2_staticBody,1.0f);
 
 
 	int left_block_two[50] = {
@@ -125,7 +158,7 @@ bool ModuleSceneIntro::Start()
 	23, 90
 	};
 
-	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody);
+	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody,1.0f);
 
 	int right_block_two[50] = {
 	57, 3,
@@ -155,7 +188,7 @@ bool ModuleSceneIntro::Start()
 	60, 8
 	};
 
-	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody);
+	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody, 1.0f);
 
 	int pinball_board_top[98] = {
 	16, 338,
@@ -209,7 +242,7 @@ bool ModuleSceneIntro::Start()
 	17, 484
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody);
+	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody, 1.0f);
 
 	int pinball_board_bottom_left[74] = {
 	192, 856,
@@ -251,7 +284,7 @@ bool ModuleSceneIntro::Start()
 	202, 854
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody, 1.0f);
 
 	int pinball_board_bottom_right[60] = {
 	453, 857,
@@ -286,22 +319,10 @@ bool ModuleSceneIntro::Start()
 	464, 857
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody);
 
-	int pinball_board1[20] = {
-	471, 294,
-	471, 262,
-	469, 264,
-	469, 549,
-	470, 747,
-	498, 747,
-	498, 239,
-	492, 217,
-	492, 738,
-	473, 738
-	};
+	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 1.0f);
 
-	
+
 	int tube[58] = {
 	463, 551,
 	463, 448,
@@ -334,7 +355,61 @@ bool ModuleSceneIntro::Start()
 	463, 763
 	};
 
-	App->physics->CreateChain(0, 0, tube, 58, b2_staticBody);
+	App->physics->CreateChain(0, 0, tube, 58, b2_staticBody, 0.0f);
+
+	int wooden_planks[26]{
+	110, 481,
+	148, 520,
+	129, 539,
+	118, 529,
+	105, 541,
+	95, 531,
+	80, 544,
+	42, 505,
+	69, 504,
+	92, 501,
+	101, 497,
+	106, 493,
+	110, 490
+
+	};
+	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 1.0f);
+
+	int pinball_board_middle_right[60] = {
+	373, 444,
+	374, 437,
+	380, 432,
+	385, 430,
+	401, 430,
+	407, 433,
+	414, 442,
+	426, 464,
+	432, 481,
+	435, 498,
+	435, 512,
+	431, 524,
+	426, 537,
+	419, 549,
+	411, 560,
+	404, 568,
+	400, 570,
+	395, 569,
+	394, 565,
+	397, 555,
+	401, 546,
+	404, 537,
+	408, 524,
+	410, 508,
+	409, 499,
+	406, 492,
+	399, 480,
+	390, 466,
+	381, 454,
+	376, 447
+	};
+
+	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 1.0f);
+
 	return ret;
 }
 
@@ -408,7 +483,7 @@ update_status ModuleSceneIntro::Update()
 			30, 62
 		};
 
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody));
+		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody, 1.0f));
 	}
 
 	// Prepare for raycast ------------------------------------------------------

@@ -29,14 +29,14 @@ bool ModulePlayer::Start()
 	ballSensor = App->physics->CreateRectangleSensor(472 + 10, 741 + 5, 25, 21);
 	ballSensor->listener = this;
 
+
 	Restart = App->physics->CreateRectangleSensor(240, 870, 480, 10);
 	Restart->listener = this;
 
 	//Initialize counters
 	force_counter = 0;
 
-	
-	
+
 	return true;
 }
 
@@ -50,6 +50,7 @@ bool ModulePlayer::CleanUp()
 
 // Update: draw background
 update_status ModulePlayer::Update()
+
 {
 
 	//Pushing the ball
@@ -87,6 +88,7 @@ update_status ModulePlayer::Update()
 	ball->GetPosition(x, y);
 
 	App->renderer->Blit(ball_texture, x, y);
+
 	return UPDATE_CONTINUE;
 }
 

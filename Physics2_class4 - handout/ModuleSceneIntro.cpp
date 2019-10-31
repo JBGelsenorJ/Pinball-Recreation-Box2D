@@ -318,6 +318,57 @@ bool ModuleSceneIntro::Start()
 	};
 
 	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 1.0f);
+
+	int wooden_planks[26]{
+	110, 481,
+	148, 520,
+	129, 539,
+	118, 529,
+	105, 541,
+	95, 531,
+	80, 544,
+	42, 505,
+	69, 504,
+	92, 501,
+	101, 497,
+	106, 493,
+	110, 490
+
+	};
+	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 1.0f);
+	int pinball_board_middle_right[60] = {
+	373, 444,
+	374, 437,
+	380, 432,
+	385, 430,
+	401, 430,
+	407, 433,
+	414, 442,
+	426, 464,
+	432, 481,
+	435, 498,
+	435, 512,
+	431, 524,
+	426, 537,
+	419, 549,
+	411, 560,
+	404, 568,
+	400, 570,
+	395, 569,
+	394, 565,
+	397, 555,
+	401, 546,
+	404, 537,
+	408, 524,
+	410, 508,
+	409, 499,
+	406, 492,
+	399, 480,
+	390, 466,
+	381, 454,
+	376, 447
+	};
+	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 1.0f);
 	return ret;
 }
 

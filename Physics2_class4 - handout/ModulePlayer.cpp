@@ -27,11 +27,8 @@ bool ModulePlayer::Start()
 	//Bodies
 	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody);
 
-	//Blit everything
-	int x, y;
-	ball->GetPosition(x, y);
 
-	App->renderer->Blit(ball_texture, x, y);
+
 	return true;
 }
 
@@ -45,7 +42,10 @@ bool ModulePlayer::CleanUp()
 
 // Update: draw background
 update_status ModulePlayer::Update()
-{
+{	//Blit everything
+	int x, y;
+	ball->GetPosition(x, y);
+	App->renderer->Blit(ball_texture, x, y, NULL, 1.0f);
 	return UPDATE_CONTINUE;
 }
 

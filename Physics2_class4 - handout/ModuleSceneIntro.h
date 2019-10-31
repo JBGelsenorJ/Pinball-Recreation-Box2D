@@ -35,7 +35,13 @@ public:
 	SDL_Texture* box;
 	SDL_Texture* rick;
 	SDL_Texture* background;
-	uint bonus_fx;
+	
+	uint timer;
 	p2Point<int> ray;
 	bool ray_on;
+
+	int font_score = -1;
+
+
+
 };

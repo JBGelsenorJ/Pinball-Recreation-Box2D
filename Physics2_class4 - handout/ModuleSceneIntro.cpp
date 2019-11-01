@@ -389,8 +389,8 @@ bool ModuleSceneIntro::Start()
 	
 
 
-	rflipper = App->physics->CreateRectangle(297, 773, 68, 14, b2_dynamicBody);
-	lflipper = App->physics->CreateRectangle(213, 774, 68, 14, b2_dynamicBody);
+	rflipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
+	lflipper = App->physics->CreateRectangle(210, 776, 69, 14, b2_dynamicBody);
 	uflipper = App->physics->CreateRectangle(395, 324, 50, 14, b2_dynamicBody);
 
 	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.8f);

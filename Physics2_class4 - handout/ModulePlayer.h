@@ -22,6 +22,8 @@ public:
 public:
 	
 	SDL_Texture* ball_texture;
+	SDL_Texture* right_board;
+	SDL_Texture* right_block;
 
 	PhysBody* ball;
 	PhysBody* ballSensor;

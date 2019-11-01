@@ -22,7 +22,9 @@ bool ModulePlayer::Start()
 
 	//Loading Textures
 	ball_texture = App->textures->Load("assets/ball.png");
-	
+	right_board = App->textures->Load("assets/right_board.png");
+	right_block = App->textures->Load("assets/right_block.png");
+
 	//Bodies
 	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.6f);
 	
@@ -97,6 +99,9 @@ update_status ModulePlayer::Update()
 	ball->GetPosition(x, y);
 
 	App->renderer->Blit(ball_texture, x, y);
+	App->renderer->Blit(right_board, 313, 550, NULL);
+	App->renderer->Blit(right_block, 405, 212, NULL);
+
 
 	return UPDATE_CONTINUE;
 }

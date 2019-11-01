@@ -39,6 +39,8 @@ public:
 	SDL_Texture* box;
 	SDL_Texture* rick;
 	SDL_Texture* background;
+	SDL_Texture* leftFlipper;
+	SDL_Texture* rightFlipper;
 	
 	uint timer;
 	p2Point<int> ray;

@@ -35,7 +35,9 @@ bool ModuleSceneIntro::Start()
 	circle = App->textures->Load("pinball/wheel.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
-	background = App->textures->Load("assets/pinball_board1.png");
+	background = App->textures->Load("assets/pinball_board_empty.png");
+	leftFlipper = App->textures->Load("assets/left_flipper.png");
+	rightFlipper = App->textures->Load("assets/right_flipper.png");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -529,6 +531,20 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 
+	if (lflipper != NULL)
+	{
+		int x, y;
+		lflipper->GetPosition(x, y);
+		App->renderer->Blit(leftFlipper, x, y, NULL, 1.0f, lflipper->GetRotation());
+	}
+
+	if (rflipper != NULL)
+	{
+		int x, y;
+		rflipper->GetPosition(x, y);
+		App->renderer->Blit(rightFlipper, x, y, NULL, 1.0f, rflipper->GetRotation());
+	}
+
 	// ray -----------------
 	if(ray_on == true)
 	{
@@ -543,10 +559,12 @@ update_status ModuleSceneIntro::Update()
 	}
 
 	
-	timer = 3;
+
+	
+	
 	char timer_text[10];
-	sprintf_s(timer_text, 10, "%d", 9);
-	App->fonts->BlitText(294, 43, font_score, timer_text);
+	sprintf_s(timer_text, 10, "%d", 100);
+	App->fonts->BlitText(250, 43, font_score, timer_text);
 
 	return UPDATE_CONTINUE;
 }

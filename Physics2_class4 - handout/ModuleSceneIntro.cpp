@@ -26,8 +26,10 @@ bool ModuleSceneIntro::Start()
 
 	b2RevoluteJointDef lflipperdef;
 	b2RevoluteJointDef rflipperdef;
+	b2RevoluteJointDef uflipperdef;
 	b2RevoluteJoint* lflipper_joint;
 	b2RevoluteJoint* rflipper_joint;
+	b2RevoluteJoint* uflipper_joint;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
@@ -387,26 +389,32 @@ bool ModuleSceneIntro::Start()
 	
 
 
-	rflipper = App->physics->CreateRectangle(300, 778, 77, 14, b2_dynamicBody);
-	lflipper = App->physics->CreateRectangle(215, 774, 77, 14, b2_dynamicBody);
+	rflipper = App->physics->CreateRectangle(297, 773, 68, 14, b2_dynamicBody);
+	lflipper = App->physics->CreateRectangle(213, 774, 68, 14, b2_dynamicBody);
+	uflipper = App->physics->CreateRectangle(395, 324, 50, 14, b2_dynamicBody);
 
 	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.8f);
 	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.8f);
+	u_flipper_joint = App->physics->CreateCircle(416, 326, 5, b2_staticBody, 0.8f);
 
 	lflipperdef.Initialize(lflipper->body, l_flipper_joint->body, l_flipper_joint->body->GetWorldCenter());
 	rflipperdef.Initialize(r_flipper_joint->body, rflipper->body, r_flipper_joint->body->GetWorldCenter());
+	uflipperdef.Initialize(u_flipper_joint->body, uflipper->body, u_flipper_joint->body->GetWorldCenter());
 
 	lflipperdef.enableLimit = true;
 	rflipperdef.enableLimit = true;
+	uflipperdef.enableLimit = true;
 
 	lflipperdef.lowerAngle = -30 * DEGTORAD;
 	lflipperdef.upperAngle = 30 * DEGTORAD;
 	rflipperdef.lowerAngle = -30 * DEGTORAD;
 	rflipperdef.upperAngle = 30 * DEGTORAD;
+	uflipperdef.lowerAngle = -30 * DEGTORAD;
+	uflipperdef.upperAngle = 30 * DEGTORAD;
 
 	lflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&lflipperdef);
 	rflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&rflipperdef);
-
+	uflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&uflipperdef);
 
 	return ret;
 }

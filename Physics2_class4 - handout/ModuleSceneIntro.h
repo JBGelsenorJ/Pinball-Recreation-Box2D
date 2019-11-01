@@ -30,6 +30,8 @@ public:
 	PhysBody* planet_6;
 	PhysBody* lflipper;
 	PhysBody* rflipper;
+	PhysBody* uflipper;
+	PhysBody* u_flipper_joint;
 	PhysBody* l_flipper_joint;
 	PhysBody* r_flipper_joint;
 	PhysBody* sensor;
@@ -41,7 +43,7 @@ public:
 	SDL_Texture* background;
 	SDL_Texture* leftFlipper;
 	SDL_Texture* rightFlipper;
-	
+	SDL_Texture* upperflipper;
 	uint timer;
 	p2Point<int> ray;
 	bool ray_on;

@@ -25,6 +25,9 @@ bool ModulePlayer::Start()
 	right_board = App->textures->Load("assets/right_board.png");
 	right_block = App->textures->Load("assets/right_block.png");
 
+	//bools
+	getPoints = false;
+
 	//Bodies
 	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.6f);
 	
@@ -37,7 +40,7 @@ bool ModulePlayer::Start()
 
 	//Initialize counters
 	force_counter = 0;
-
+	score = 0;
 
 	return true;
 }
@@ -94,6 +97,13 @@ update_status ModulePlayer::Update()
 		restart = false;
 	}
 
+	//Get Points
+	if (getPoints == true)
+	{
+		score += 7;
+		getPoints = false;
+	}
+
 	//Blit everything
 	int x, y;
 	ball->GetPosition(x, y);
@@ -101,6 +111,8 @@ update_status ModulePlayer::Update()
 	App->renderer->Blit(ball_texture, x, y);
 	App->renderer->Blit(right_board, 313, 550, NULL);
 	App->renderer->Blit(right_block, 405, 212, NULL);
+
+
 
 
 	return UPDATE_CONTINUE;

@@ -35,6 +35,12 @@ public:
 	PhysBody* l_flipper_joint;
 	PhysBody* r_flipper_joint;
 	PhysBody* sensor;
+	PhysBody* planet_1_sensor;
+	PhysBody* planet_2_sensor;
+	PhysBody* planet_3_sensor;
+	PhysBody* planet_4_sensor;
+	PhysBody* planet_5_sensor;
+	PhysBody* planet_6_sensor;
 	bool sensed;
 
 	SDL_Texture* circle;
@@ -44,12 +50,13 @@ public:
 	SDL_Texture* leftFlipper;
 	SDL_Texture* rightFlipper;
 	SDL_Texture* upperFlipper;
-	uint timer;
+
+	
 	p2Point<int> ray;
 	bool ray_on;
 
 	int font_score = -1;
-
+	
 
 
 };

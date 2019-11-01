@@ -31,6 +31,8 @@ public:
 
 	bool shoot;
 	bool restart;
+	bool getPoints;
 
 	uint force_counter;
+	uint score;
 };

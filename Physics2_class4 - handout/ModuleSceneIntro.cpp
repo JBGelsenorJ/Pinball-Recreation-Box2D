@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
+#include "ModulePlayer.h"
 #include "ModuleFonts.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -49,22 +50,34 @@ bool ModuleSceneIntro::Start()
 	
 	//scene elements
 	planet_1 = new PhysBody();
-	planet_1 = App->physics->CreateCircle(302, 297, 33, b2_staticBody, 0.8f);
-	
+	planet_1 = App->physics->CreateCircle(302, 297, 32, b2_staticBody, 0.8f);
+	planet_1_sensor = App->physics->CreateCircle(302, 297, 35, b2_staticBody, 2.0f, true);
+	planet_1_sensor->listener = this;
+
 	planet_2 = new PhysBody();
-	planet_2 = App->physics->CreateCircle(245, 373, 13, b2_staticBody, 0.8f);
+	planet_2 = App->physics->CreateCircle(245, 373, 12, b2_staticBody, 0.8f);
+	planet_2_sensor = App->physics->CreateCircle(245, 373, 15, b2_staticBody, 2.0f, true);
+	planet_2_sensor->listener = this;
 
 	planet_3 = new PhysBody();
-	planet_3 = App->physics->CreateCircle(276, 435, 13, b2_staticBody, 0.8f);
+	planet_3 = App->physics->CreateCircle(276, 435, 12, b2_staticBody, 0.8f);
+	planet_3_sensor = App->physics->CreateCircle(276, 435, 15, b2_staticBody, 2.0f, true);
+	planet_3_sensor->listener = this;
 
 	planet_4 = new PhysBody();
-	planet_4 = App->physics->CreateCircle(215, 465, 13, b2_staticBody, 0.8f);
+	planet_4 = App->physics->CreateCircle(215, 465, 12, b2_staticBody, 0.8f);
+	planet_4_sensor = App->physics->CreateCircle(215, 465, 15, b2_staticBody, 2.0f, true);
+	planet_4_sensor->listener = this;
 
 	planet_5 = new PhysBody();
-	planet_5 = App->physics->CreateCircle(344, 516, 32, b2_staticBody, 0.8f);
+	planet_5 = App->physics->CreateCircle(344, 516, 31, b2_staticBody, 0.8f);
+	planet_5_sensor = App->physics->CreateCircle(344, 516, 34, b2_staticBody, 2.0f, true);
+	planet_5_sensor->listener = this;
 
 	planet_6 = new PhysBody();
-	planet_6 = App->physics->CreateCircle(93, 624, 34, b2_staticBody, 0.8f);
+	planet_6 = App->physics->CreateCircle(93, 624, 33, b2_staticBody, 0.8f);
+	planet_6_sensor = App->physics->CreateCircle(93, 624, 36, b2_staticBody, 2.0f, true);
+	planet_6_sensor->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -394,9 +407,9 @@ bool ModuleSceneIntro::Start()
 	lflipper = App->physics->CreateRectangle(210, 776, 69, 14, b2_dynamicBody);
 	uflipper = App->physics->CreateRectangle(395, 324, 50, 14, b2_dynamicBody);
 
-	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.8f);
-	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.8f);
-	u_flipper_joint = App->physics->CreateCircle(416, 326, 5, b2_staticBody, 0.8f);
+	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.5f);
+	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.5f);
+	u_flipper_joint = App->physics->CreateCircle(416, 326, 5, b2_staticBody, 0.5f);
 
 	lflipperdef.Initialize(lflipper->body, l_flipper_joint->body, l_flipper_joint->body->GetWorldCenter());
 	rflipperdef.Initialize(r_flipper_joint->body, rflipper->body, r_flipper_joint->body->GetWorldCenter());
@@ -577,15 +590,19 @@ update_status ModuleSceneIntro::Update()
 	
 
 	
-	
-	char timer_text[10];
-	sprintf_s(timer_text, 10, "%d", 100);
-	App->fonts->BlitText(250, 43, font_score, timer_text);
+	//Score
+	char score_text[10];
+	sprintf_s(score_text, 10, "%d", App->player->score);
+	App->fonts->BlitText(250, 43, font_score, score_text);
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
+	if (App->player->getPoints == false && (bodyA == planet_1_sensor || bodyA == planet_2_sensor || bodyA == planet_3_sensor || bodyA == planet_4_sensor || bodyA == planet_5_sensor || bodyA == planet_6_sensor))
+	{
+		App->player->getPoints = true;
+	}
 	
 }

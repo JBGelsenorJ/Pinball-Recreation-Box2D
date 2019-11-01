@@ -50,7 +50,8 @@ bool ModuleSceneIntro::Start()
 	App->audio->PlayFx(startfx);
 	ringfx = App->audio->LoadFx("assets/audio/ring.wav");
 	dingfx = App->audio->LoadFx("assets/audio/ding.wav");
-
+	satelitefx = App->audio->LoadFx("assets/audio/satelite.wav");
+	alienfx = App->audio->LoadFx("assets/audio/alien.wav");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -128,7 +129,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 0.5);
+	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 0.5,false);
 
 	int left_block_two[50] = {
 	17, 85,
@@ -158,7 +159,7 @@ bool ModuleSceneIntro::Start()
 	23, 90
 	};
 
-	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody, 0.5);
+	App->physics->CreateChain(109, 676, left_block_two, 50, b2_staticBody, 0.5, false);
 
 	int right_block_two[50] = {
 	57, 3,
@@ -188,7 +189,7 @@ bool ModuleSceneIntro::Start()
 	60, 8
 	};
 
-	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody, 0.5);
+	App->physics->CreateChain(337, 674, right_block_two, 50, b2_staticBody, 0.5, false);
 
 	int pinball_board_top[98] = {
 	16, 338,
@@ -242,7 +243,7 @@ bool ModuleSceneIntro::Start()
 	17, 484
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody, 0.5);
+	App->physics->CreateChain(0, 0, pinball_board_top, 98, b2_staticBody, 0.5, false);
 
 	int pinball_board_bottom_left[74] = {
 	192, 856,
@@ -284,7 +285,7 @@ bool ModuleSceneIntro::Start()
 	202, 854
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody, 0.5);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_left, 74, b2_staticBody, 0.5, false);
 
 	int pinball_board_bottom_right[60] = {
 	453, 857,
@@ -320,7 +321,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 0.5);
+	App->physics->CreateChain(0, 0, pinball_board_bottom_right, 60, b2_staticBody, 0.5, false);
 
 
 	int tube[58] = {
@@ -355,7 +356,7 @@ bool ModuleSceneIntro::Start()
 	463, 763
 	};
 
-	App->physics->CreateChain(0, 0, tube, 58, b2_staticBody, 0.0f);
+	App->physics->CreateChain(0, 0, tube, 58, b2_staticBody, 0.0f, false);
 
 	int wooden_planks[26]{
 	110, 481,
@@ -373,7 +374,7 @@ bool ModuleSceneIntro::Start()
 	110, 490
 
 	};
-	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5);
+	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5, false);
 
 	int pinball_board_middle_right[60] = {
 	373, 444,
@@ -408,8 +409,51 @@ bool ModuleSceneIntro::Start()
 	376, 447
 	};
 
-	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f);
+	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f, false);
 	
+	int satelitec[38] = {
+	163, 365,
+	168, 356,
+	160, 350,
+	157, 357,
+	152, 360,
+	133, 347,
+	130, 353,
+	149, 365,
+	148, 369,
+	144, 369,
+	144, 373,
+	144, 379,
+	156, 378,
+	156, 374,
+	159, 370,
+	179, 381,
+	182, 375,
+	167, 368,
+	174, 364
+	};
+	App->physics->CreateChain(0, 0, satelitec, 38, b2_staticBody, 0.5f, false);
+	satelite = App->physics->CreateChain(0, 0, satelitec, 38, b2_staticBody, 0.0f, true);
+	satelite->listener = this;
+
+	int alienc[26] = {
+	98, 324,
+	104, 318,
+	108, 310,
+	110, 304,
+	107, 299,
+	105, 296,
+	100, 292,
+	91, 292,
+	86, 297,
+	83, 303,
+	84, 311,
+	88, 318,
+	92, 324
+	};
+	App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.5f, false);
+	alien = App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.0f, true);
+	alien->listener = this;
 
 
 	rflipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
@@ -461,58 +505,6 @@ update_status ModuleSceneIntro::Update()
 		ray_on = !ray_on;
 		ray.x = App->input->GetMouseX();
 		ray.y = App->input->GetMouseY();
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody, 0.6f));
-		circles.getLast()->data->listener = this;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50, b2_dynamicBody));
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-	
-	int rick_head[64] = {
-			14, 36,
-			42, 40,
-			40, 0,
-			75, 30,
-			88, 4,
-			94, 39,
-			111, 36,
-			104, 58,
-			107, 62,
-			117, 67,
-			109, 73,
-			110, 85,
-			106, 91,
-			109, 99,
-			103, 104,
-			100, 115,
-			106, 121,
-			103, 125,
-			98, 126,
-			95, 137,
-			83, 147,
-			67, 147,
-			53, 140,
-			46, 132,
-			34, 136,
-			38, 126,
-			23, 123,
-			30, 114,
-			10, 102,
-			29, 90,
-			0, 75,
-			30, 62
-		};
-
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody, 1.0f));
 	}
 
 	// Prepare for raycast ------------------------------------------------------
@@ -623,5 +615,14 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
 	}
-	
+	if ((bodyA == satelite))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(satelitefx);
+	}
+	if ((bodyA == alien))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(alienfx);
+	}
 }

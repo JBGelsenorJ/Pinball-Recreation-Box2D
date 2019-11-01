@@ -100,7 +100,7 @@ update_status ModulePlayer::Update()
 	//Get Points
 	if (getPoints == true)
 	{
-		score += 7;
+		score += 3;
 		getPoints = false;
 	}
 

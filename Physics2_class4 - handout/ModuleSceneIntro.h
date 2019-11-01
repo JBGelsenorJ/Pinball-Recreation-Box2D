@@ -43,7 +43,7 @@ public:
 	SDL_Texture* background;
 	SDL_Texture* leftFlipper;
 	SDL_Texture* rightFlipper;
-	SDL_Texture* upperflipper;
+	SDL_Texture* upperFlipper;
 	uint timer;
 	p2Point<int> ray;
 	bool ray_on;

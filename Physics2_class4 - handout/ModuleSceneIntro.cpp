@@ -40,6 +40,7 @@ bool ModuleSceneIntro::Start()
 	background = App->textures->Load("assets/pinball_board_empty.png");
 	leftFlipper = App->textures->Load("assets/left_flipper.png");
 	rightFlipper = App->textures->Load("assets/right_flipper.png");
+	upperFlipper = App->textures->Load("assets/upper_flipper.png");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -551,6 +552,13 @@ update_status ModuleSceneIntro::Update()
 		int x, y;
 		rflipper->GetPosition(x, y);
 		App->renderer->Blit(rightFlipper, x, y, NULL, 1.0f, rflipper->GetRotation());
+	}
+
+	if (uflipper != NULL)
+	{
+		int x, y;
+		uflipper->GetPosition(x, y);
+		App->renderer->Blit(upperFlipper, x, y, NULL, 1.0f, uflipper->GetRotation());
 	}
 
 	// ray -----------------

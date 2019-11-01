@@ -35,4 +35,7 @@ public:
 
 	uint force_counter;
 	uint score;
+	uint lives;
+	uint recentScore;
+	uint bestScore;
 };

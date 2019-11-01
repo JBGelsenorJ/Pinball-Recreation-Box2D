@@ -41,6 +41,9 @@ bool ModulePlayer::Start()
 	//Initialize counters
 	force_counter = 0;
 	score = 0;
+	lives = 3;
+	recentScore = 0;
+	bestScore = 0;
 
 	return true;
 }
@@ -103,6 +106,27 @@ update_status ModulePlayer::Update()
 		ball->body->SetTransform({ PIXEL_TO_METERS(480 + 0.2f), PIXEL_TO_METERS(700 - 0.2f) }, 0.0f);
 		ball->body->SetLinearVelocity({ 0,0 });
 		App->audio->PlayFx(App->scene_intro->startfx);
+		
+
+		if (lives > 0)
+		{
+			lives -= 1;
+		}
+
+		if (lives == 0)
+		{
+			lives = 3;
+			recentScore = score;
+
+			if(recentScore > bestScore)
+			{
+				bestScore = recentScore;
+			}
+			
+			score = 0;
+			
+		}
+
 		restart = false;
 	}
 

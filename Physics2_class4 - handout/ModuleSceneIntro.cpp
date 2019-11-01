@@ -597,8 +597,17 @@ update_status ModuleSceneIntro::Update()
 	
 	//Score
 	char score_text[10];
+	char bestScore_text[10];
+	char recentScore_text[10];
+	
 	sprintf_s(score_text, 10, "%d", App->player->score);
+	sprintf_s(bestScore_text, 10, "%d", App->player->bestScore);
+	sprintf_s(recentScore_text, 10, "%d", App->player->recentScore);
+	
 	App->fonts->BlitText(250, 43, font_score, score_text);
+	App->fonts->BlitText(250, 20, font_score, bestScore_text);
+	App->fonts->BlitText(450, 43, font_score, recentScore_text);
+
 
 	return UPDATE_CONTINUE;
 }

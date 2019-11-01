@@ -43,6 +43,11 @@ bool ModuleSceneIntro::Start()
 	rightFlipper = App->textures->Load("assets/right_flipper.png");
 	upperFlipper = App->textures->Load("assets/upper_flipper.png");
 
+
+	startfx = App->audio->LoadFx("assets/audio/start.wav");
+	flipperfx = App->audio->LoadFx("assets/audio/flipper.wav");
+	App->audio->PlayFx(startfx);
+
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
 	//Loading fonts

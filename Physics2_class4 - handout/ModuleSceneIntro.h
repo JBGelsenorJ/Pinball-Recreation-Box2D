@@ -52,11 +52,14 @@ public:
 	SDL_Texture* upperFlipper;
 
 	
+	uint startfx;
+	uint flipperfx;
+
 	p2Point<int> ray;
 	bool ray_on;
 
 	int font_score = -1;
 	
-
+	
 
 };

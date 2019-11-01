@@ -87,13 +87,22 @@ update_status ModulePlayer::Update()
 	{
 		App->scene_intro->rflipper->body->ApplyAngularImpulse(2.0f, true);
 		App->scene_intro->uflipper->body->ApplyAngularImpulse(2.0f, true);
+		
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		App->audio->PlayFx(App->scene_intro->flipperfx);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+	App->audio->PlayFx(App->scene_intro->flipperfx);
 	}
 	//Restarting game
 	if (restart == true)
 	{
 		ball->body->SetTransform({ PIXEL_TO_METERS(480 + 0.2f), PIXEL_TO_METERS(700 - 0.2f) }, 0.0f);
 		ball->body->SetLinearVelocity({ 0,0 });
-		
+		App->audio->PlayFx(App->scene_intro->startfx);
 		restart = false;
 	}
 

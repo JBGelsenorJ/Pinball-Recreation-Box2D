@@ -70,7 +70,7 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
 	{
 		
-
+		App->audio->PlayFx(App->scene_intro->kickerfx);
 		if (shoot == true)
 		{
 			float force = ((float)force_counter * 25) / 3;
@@ -103,9 +103,11 @@ update_status ModulePlayer::Update()
 	//Restarting game
 	if (restart == true)
 	{
+		App->audio->PlayFx(App->scene_intro->startfx);
+		App->audio->PlayFx(App->scene_intro->ringfx);
 		ball->body->SetTransform({ PIXEL_TO_METERS(480 + 0.2f), PIXEL_TO_METERS(700 - 0.2f) }, 0.0f);
 		ball->body->SetLinearVelocity({ 0,0 });
-		App->audio->PlayFx(App->scene_intro->startfx);
+
 		
 
 		if (lives > 0)

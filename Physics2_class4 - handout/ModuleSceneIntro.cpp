@@ -44,9 +44,13 @@ bool ModuleSceneIntro::Start()
 	upperFlipper = App->textures->Load("assets/upper_flipper.png");
 
 
-	startfx = App->audio->LoadFx("assets/audio/start.wav");
+	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
 	flipperfx = App->audio->LoadFx("assets/audio/flipper.wav");
+	startfx = App->audio->LoadFx("assets/audio/noisestart.wav");
 	App->audio->PlayFx(startfx);
+	ringfx = App->audio->LoadFx("assets/audio/ring.wav");
+	dingfx = App->audio->LoadFx("assets/audio/ding.wav");
+
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -617,6 +621,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (App->player->getPoints == false && (bodyA == planet_1_sensor || bodyA == planet_2_sensor || bodyA == planet_3_sensor || bodyA == planet_4_sensor || bodyA == planet_5_sensor || bodyA == planet_6_sensor))
 	{
 		App->player->getPoints = true;
+		App->audio->PlayFx(dingfx);
 	}
 	
 }

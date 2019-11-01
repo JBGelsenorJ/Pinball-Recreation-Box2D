@@ -52,8 +52,11 @@ public:
 	SDL_Texture* upperFlipper;
 
 	
-	uint startfx;
+	uint kickerfx;
 	uint flipperfx;
+	uint startfx;
+	uint ringfx;
+	uint dingfx;
 
 	p2Point<int> ray;
 	bool ray_on;

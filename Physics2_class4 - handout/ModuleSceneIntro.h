@@ -28,6 +28,8 @@ public:
 	PhysBody* planet_4;
 	PhysBody* planet_5;
 	PhysBody* planet_6;
+	PhysBody* satelite;
+	PhysBody* alien;
 	PhysBody* lflipper;
 	PhysBody* rflipper;
 	PhysBody* uflipper;
@@ -57,6 +59,8 @@ public:
 	uint startfx;
 	uint ringfx;
 	uint dingfx;
+	uint satelitefx;
+	uint alienfx;
 
 	p2Point<int> ray;
 	bool ray_on;

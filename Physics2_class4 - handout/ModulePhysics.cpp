@@ -135,7 +135,7 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2BodyType type, float  bounciness )
+PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2BodyType type, float  bounciness, bool sensor)
 {
 	b2BodyDef body;
 	body.type = type;
@@ -157,6 +157,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2Body
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	fixture.restitution = bounciness;
+	fixture.isSensor = sensor;
 	b->CreateFixture(&fixture);
 
 	delete p;

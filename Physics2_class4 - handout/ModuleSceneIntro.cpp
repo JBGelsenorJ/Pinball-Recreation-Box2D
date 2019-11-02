@@ -469,7 +469,7 @@ bool ModuleSceneIntro::Start()
 	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.5f);
 	u_flipper_joint = App->physics->CreateCircle(416, 326, 5, b2_staticBody, 0.5f);
 
-	lflipperdef.Initialize(lflipper->body, l_flipper_joint->body, l_flipper_joint->body->GetWorldCenter());
+	lflipperdef.Initialize(l_flipper_joint->body, lflipper->body, l_flipper_joint->body->GetWorldCenter());
 	rflipperdef.Initialize(r_flipper_joint->body, rflipper->body, r_flipper_joint->body->GetWorldCenter());
 	uflipperdef.Initialize(u_flipper_joint->body, uflipper->body, u_flipper_joint->body->GetWorldCenter());
 

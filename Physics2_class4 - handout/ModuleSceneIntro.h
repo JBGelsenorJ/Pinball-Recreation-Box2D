@@ -60,9 +60,9 @@ public:
 	PhysBody* greendot9 = nullptr;
 	PhysBody* greendot10 = nullptr;
 	PhysBody* greendot11 = nullptr;
-	PhysBody* greenBigLight1 = nullptr;
-	PhysBody* greenBigLight2 = nullptr;
-	PhysBody* greenBigLight3 = nullptr;
+	PhysBody* greenBigSensor1 = nullptr;
+	PhysBody* greenBigSensor2 = nullptr;
+	PhysBody* greenBigSensor3 = nullptr;
 
 	bool sensed = false;
 
@@ -79,6 +79,8 @@ public:
 	SDL_Texture* miniplanet_texture;
 	SDL_Texture* red_planet_texture;
 	SDL_Texture* green_light_texture1;
+	SDL_Texture* green_light_texture2;
+	SDL_Texture* green_light_texture3;
 	SDL_Texture* green_dot_texture;
 	
 	uint kickerfx = 0;
@@ -123,6 +125,9 @@ public:
 	bool lightgreendot9;
 	bool lightgreendot10;
 	bool lightgreendot11;
+	bool lightGreenBig1;
+	bool lightGreenBig2;
+	bool lightGreenBig3;
 
 	int font_score = -1;
 	uint move = 0;

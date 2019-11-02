@@ -41,10 +41,10 @@ bool ModuleSceneIntro::Start()
 	alien_texture = App->textures->Load("assets/alien.png");
 	miniplanet_texture = App->textures->Load("assets/whitelight.png");
 	red_planet_texture = App->textures->Load("assets/redlight.png");
-	green_light_texture1 = App->textures->Load("assets/greenbiglight1.png");
-	//green_light_texture2 = App->textures->Load("assets/greenbiglight1.png");
-	//green_light_texture3 = App->textures->Load("assets/greenbiglight1.png");
 	green_dot_texture = App->textures->Load("assets/greendot.png");
+	green_light_texture1 = App->textures->Load("assets/greenbiglight1.png");
+	green_light_texture2 = App->textures->Load("assets/greenbiglight2.png");
+	green_light_texture3 = App->textures->Load("assets/greenbiglight3.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -66,6 +66,508 @@ bool ModuleSceneIntro::Start()
 	font_score = App->fonts->Load("assets/score.png", "0123456789", 1);
 	
 	//scene elements
+	CreateElements();
+
+	return ret;
+}
+
+// Load assets
+bool ModuleSceneIntro::CleanUp()
+{
+	LOG("Unloading Intro scene");
+
+	return true;
+}
+
+// Update: draw background
+update_status ModuleSceneIntro::Update()
+{
+
+	App->renderer->Blit(background, 0, 0, NULL);
+
+	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		ray_on = !ray_on;
+		ray.x = App->input->GetMouseX();
+		ray.y = App->input->GetMouseY();
+	}
+
+	// Prepare for raycast ------------------------------------------------------
+	
+	iPoint mouse;
+	mouse.x = App->input->GetMouseX();
+	mouse.y = App->input->GetMouseY();
+	int ray_hit = ray.DistanceTo(mouse);
+
+	fVector normal(0.0f, 0.0f);
+
+	// All draw functions ------------------------------------------------------
+	p2List_item<PhysBody*>* c = circles.getFirst();
+
+	while(c != NULL)
+	{
+		int x, y;
+		c->data->GetPosition(x, y);
+		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
+			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+		c = c->next;
+	}
+
+	c = boxes.getFirst();
+
+	while(c != NULL)
+	{
+		int x, y;
+		c->data->GetPosition(x, y);
+		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
+		if(ray_on)
+		{
+			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
+			if(hit >= 0)
+				ray_hit = hit;
+		}
+		c = c->next;
+	}
+
+	c = ricks.getFirst();
+
+	while(c != NULL)
+	{
+		int x, y;
+		c->data->GetPosition(x, y);
+		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
+		c = c->next;
+	}
+
+
+	// ray -----------------
+	if(ray_on == true)
+	{
+		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
+		destination.Normalize();
+		destination *= ray_hit;
+
+		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
+
+		if(normal.x != 0.0f)
+			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
+	}
+
+	// Function to check all colisions with sensors 
+	MapChecker();
+
+	//Score
+	char score_text[10];
+	char bestScore_text[10];
+	char recentScore_text[10];
+	
+	sprintf_s(score_text, 10, "%d", App->player->score);
+	sprintf_s(bestScore_text, 10, "%d", App->player->bestScore);
+	sprintf_s(recentScore_text, 10, "%d", App->player->recentScore);
+	
+	App->fonts->BlitText(250, 43, font_score, score_text);
+	App->fonts->BlitText(250, 20, font_score, bestScore_text);
+	App->fonts->BlitText(420, 43, font_score, recentScore_text);
+
+	//Setting Title
+	char lives[4];
+	char Title[64] = "Pinball in Space | ";
+	char numLives[32] = "Lives: ";
+	
+	sprintf_s(lives, "%d", App->player->lives);
+	strcat_s(Title, numLives);
+	strcat_s(Title, lives);
+
+	App->window->SetTitle(Title);
+
+	return UPDATE_CONTINUE;
+}
+
+void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
+{
+	if (App->player->getPoints == false && (bodyA == planet_1_sensor))
+	{
+		App->player->getPoints = true;
+		lightPlanet1 = true;
+	}
+
+	if (App->player->getPoints == false && (bodyA == planet_2_sensor))
+	{
+		App->player->getPoints = true;
+		lightPlanet2 = true;
+	}
+
+	if (App->player->getPoints == false && (bodyA == planet_3_sensor))
+	{
+		App->player->getPoints = true;
+		lightPlanet3 = true;
+	}
+
+	if (App->player->getPoints == false && (bodyA == planet_4_sensor))
+	{
+		App->player->getPoints = true;
+		lightPlanet4 = true;
+	}
+
+	if (App->player->getPoints == false && (bodyA == planet_5_sensor))
+	{
+		App->player->getPoints = true;
+		lightPlanet5 = true;
+	}
+
+	if (App->player->getPoints == false && (bodyA == planet_6_sensor))
+	{
+		App->player->getPoints = true;
+
+		lightPlanet6 = true;
+	}
+
+	if ((bodyA == planet_1_sensor) || (bodyA == planet_2_sensor) || (bodyA == planet_3_sensor) || (bodyA == planet_4_sensor) || (bodyA == planet_5_sensor) || (bodyA == planet_6_sensor)) {
+		App->audio->PlayFx(dingfx);
+	}
+
+	if (App->player->getPoints == false && (bodyA == satelite_sensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(satelitefx);
+		lightSatellite = true;
+	}
+
+	if ((bodyA == alienSensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(alienfx);
+		lightAlien = true;
+	}
+
+	if ((bodyA == woodensensor)) {
+		App->audio->PlayFx(woodeninfx);
+		woodentransport = true;
+	}
+
+	if (bodyA == kickerSensor && closekicker == false)
+	{
+		closekicker = true;
+	}
+
+	if ((bodyA == miniPlanetSensor)) {
+		lightMiniWhitePlanet = true;
+
+	}
+
+	if ((bodyA == miniPlanetSensor2)) {
+		lightMiniWhitePlanet2 = true;
+	}
+
+	if ((bodyA == miniPlanetSensor3)) {
+		lightMiniWhitePlanet3 = true;
+	}
+
+	if ((bodyA == redPlanetSensor1)) {
+		lightRedPlanet1 = true;
+	}
+
+	if ((bodyA == redPlanetSensor2)) {
+		lightRedPlanet2 = true;
+	}
+
+	if ((bodyA == redPlanetSensor3)) {
+		lightRedPlanet3 = true;
+	}
+
+	if ((bodyA == miniPlanetSensor) || (bodyA == miniPlanetSensor2) || (bodyA == miniPlanetSensor3)) {
+		App->audio->PlayFx(miniplanetfx);
+	}
+
+
+	if ((bodyA == miniPlanetSensor)) {
+		App->audio->PlayFx(miniplanetfx);
+	}
+	if ((bodyA == greendot))
+	{
+		lightgreendot = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot2))
+	{
+		lightgreendot2 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot3))
+	{
+		lightgreendot3 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot4))
+	{
+		lightgreendot4 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot5))
+	{
+		lightgreendot5 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot6))
+	{
+		lightgreendot6 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot7))
+	{
+		lightgreendot7 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot8))
+	{
+		lightgreendot8 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot9))
+	{
+		lightgreendot9 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot10))
+	{
+		lightgreendot10 = true;
+		App->audio->PlayFx(pointfx);
+	}
+	if ((bodyA == greendot11))
+	{
+		lightgreendot11 = true;
+		App->audio->PlayFx(pointfx);
+	}
+
+	if ((bodyA == greenBigSensor1))
+	{
+		lightGreenBig1 = true;
+	}
+
+	if ((bodyA == greenBigSensor2))
+	{
+		lightGreenBig2 = true;
+	}
+
+	if ((bodyA == greenBigSensor3))
+	{
+		lightGreenBig3 = true;
+	}
+}
+
+
+void ModuleSceneIntro::MapChecker()
+{
+
+	//Light all planets
+	if (lightPlanet1 == true)
+	{
+		App->renderer->Blit(planet_1_shine, 267, 263, NULL);
+	}
+
+	lightPlanet1 = false;
+
+	if (lightPlanet2 == true)
+	{
+		App->renderer->Blit(planet_2_shine, 230, 358, NULL);
+	}
+
+	lightPlanet2 = false;
+
+	if (lightPlanet3 == true)
+	{
+		App->renderer->Blit(planet_2_shine, 262, 421, NULL);
+	}
+
+	lightPlanet3 = false;
+
+	if (lightPlanet4 == true)
+	{
+		App->renderer->Blit(planet_2_shine, 199, 451, NULL);
+	}
+
+	lightPlanet4 = false;
+
+	if (lightPlanet5 == true)
+	{
+		App->renderer->Blit(planet_5_shine, 307, 480, NULL);
+	}
+
+	lightPlanet5 = false;
+
+	if (lightPlanet6 == true)
+	{
+		App->renderer->Blit(planet_6_shine, 57, 589, NULL);
+	}
+
+	lightPlanet6 = false;
+
+	if (lightSatellite == true)
+	{
+		App->renderer->Blit(satellite, 131, 349, NULL);
+	}
+
+	lightSatellite = false;
+
+	if (lightAlien == true)
+	{
+		App->renderer->Blit(alien_texture, 83, 292, NULL);
+	}
+
+	if (closekicker == true)
+	{
+		closekicker = false;
+		/*kickercloser = App->physics->CreateRectangle(449, 205, 10, 100,b2_dynamicBody);*/
+	}
+
+	if (woodentransport)
+	{
+		cont += 10;
+		App->player->ball->body->SetTransform({ PIXEL_TO_METERS(1000 + 0.2f), PIXEL_TO_METERS(1000) }, 0.0f);
+		App->player->ball->body->SetLinearVelocity({ 0,0 });
+		if (cont > 1000)
+		{
+			App->audio->PlayFx(woodenoutfx);
+			woodentransport = false;
+			App->player->ball->body->SetTransform({ PIXEL_TO_METERS(399 + 0.2f), PIXEL_TO_METERS(130) }, 0.0f);
+			App->player->ball->body->SetLinearVelocity({ 0,40 });
+			cont = 0;
+			App->player->score += 100;
+		}
+	}
+
+	lightAlien = false;
+
+	if (lightMiniWhitePlanet == true)
+	{
+		App->renderer->Blit(miniplanet_texture, 185, 544, NULL);
+	}
+
+	lightMiniWhitePlanet = false;
+
+	if (lightMiniWhitePlanet2 == true)
+	{
+		App->renderer->Blit(miniplanet_texture, 214, 506, NULL);
+	}
+
+	lightMiniWhitePlanet2 = false;
+
+	if (lightMiniWhitePlanet3 == true)
+	{
+		App->renderer->Blit(miniplanet_texture, 161, 583, NULL);
+	}
+
+	lightMiniWhitePlanet3 = false;
+
+	if (lightRedPlanet1 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 289, 554, NULL);
+	}
+
+	lightRedPlanet1 = false;
+
+	if (lightRedPlanet2 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 325, 592, NULL);
+	}
+
+	lightRedPlanet2 = false;
+
+	if (lightRedPlanet3 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
+	}
+
+	lightRedPlanet3 = false;
+
+	if (lightRedPlanet3 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
+	}
+
+	lightRedPlanet3 = false;
+
+	if (lightGreenBig1 == true)
+	{
+		App->renderer->Blit(green_light_texture1, 81, 203, NULL);
+	}
+
+	lightGreenBig1 = false;
+
+	if (lightGreenBig2 == true)
+	{
+		App->renderer->Blit(green_light_texture2, 102, 440, NULL);
+	}
+
+	lightGreenBig2 = false;
+
+	if (lightGreenBig3 == true)
+	{
+		App->renderer->Blit(green_light_texture3, 378, 418, NULL);
+	}
+
+	lightGreenBig3 = false;
+
+	// Light little dots
+	if (lightgreendot == true)
+
+	{
+		App->renderer->Blit(green_dot_texture, 425, 136, NULL);
+	}
+	if (lightgreendot2 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 387, 121, NULL);
+	}
+
+	if (lightgreendot3 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 350, 113, NULL);
+	}
+
+	if (lightgreendot4 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 305, 114, NULL);
+	}
+
+	if (lightgreendot5 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 257, 119, NULL);
+	}
+
+	if (lightgreendot6 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 214, 134, NULL);
+	}
+
+	if (lightgreendot7 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 178, 151, NULL);
+	}
+
+	if (lightgreendot8 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 148, 175, NULL);
+	}
+
+	if (lightgreendot9 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 123, 204, NULL);
+	}
+
+	if (lightgreendot10 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 100, 233, NULL);
+	}
+
+	if (lightgreendot11 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 81, 263, NULL);
+	}
+
+}
+
+void ModuleSceneIntro::CreateElements(){
+
 	planet_1 = new PhysBody();
 	planet_1 = App->physics->CreateCircle(302, 297, 32, b2_staticBody, 0.8f);
 	planet_1_sensor = App->physics->CreateCircle(302, 297, 36, b2_staticBody, 2.0f, true);
@@ -104,7 +606,7 @@ bool ModuleSceneIntro::Start()
 	alienSensor = App->physics->CreateCircle(96, 305, 14, b2_staticBody, 2.0f, true);
 	alienSensor->listener = this;
 
-	kickerSensor = App->physics->CreateRectangleSensor(439,205,10,100);
+	kickerSensor = App->physics->CreateRectangleSensor(439, 205, 10, 100);
 	kickerSensor->listener = this;
 
 	miniPlanetSensor = App->physics->CreateCircle(196, 553, 11, b2_staticBody, 2.0f, true);
@@ -124,8 +626,9 @@ bool ModuleSceneIntro::Start()
 
 	redPlanetSensor3 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
 	redPlanetSensor3->listener = this;
+
 	// Little green dots
-	greendot  = App->physics->CreateCircle(425, 136, 2, b2_staticBody, 2.0f, true);
+	greendot = App->physics->CreateCircle(425, 136, 2, b2_staticBody, 2.0f, true);
 	greendot->listener = this;
 
 	greendot2 = App->physics->CreateCircle(387, 121, 2, b2_staticBody, 2.0f, true);
@@ -158,8 +661,14 @@ bool ModuleSceneIntro::Start()
 	greendot11 = App->physics->CreateCircle(85, 267, 2, b2_staticBody, 2.0f, true);
 	greendot11->listener = this;
 
-	greenBigLight1 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
-	redPlanetSensor3->listener = this;
+	greenBigSensor1 = App->physics->CreateCircle(90, 215, 10, b2_staticBody, 2.0f, true);
+	greenBigSensor1->listener = this;
+
+	greenBigSensor2 = App->physics->CreateCircle(102, 450, 10, b2_staticBody, 2.0f, true);
+	greenBigSensor2->listener = this;
+
+	greenBigSensor3 = App->physics->CreateCircle(388, 427, 10, b2_staticBody, 2.0f, true);
+	greenBigSensor3->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -201,7 +710,7 @@ bool ModuleSceneIntro::Start()
 	};
 
 
-	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 0.5,false);
+	App->physics->CreateChain(0, 1, top_block, 72, b2_staticBody, 0.5, false);
 
 	int left_block_two[50] = {
 	17, 85,
@@ -447,8 +956,9 @@ bool ModuleSceneIntro::Start()
 
 	};
 	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5, false);
-	woodensensor = App->physics->CreateRectangleSensor(108,526,20,40);
+	woodensensor = App->physics->CreateRectangleSensor(108, 526, 20, 40);
 	woodensensor->listener = this;
+
 	int pinball_board_middle_right[60] = {
 	373, 444,
 	374, 437,
@@ -485,456 +995,5 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f, false);
 
 
-	return ret;
-}
-
-// Load assets
-bool ModuleSceneIntro::CleanUp()
-{
-	LOG("Unloading Intro scene");
-
-	return true;
-}
-
-// Update: draw background
-update_status ModuleSceneIntro::Update()
-{
-
-	App->renderer->Blit(background, 0, 0, NULL);
-
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		ray_on = !ray_on;
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
-	}
-
-	// Prepare for raycast ------------------------------------------------------
-	
-	iPoint mouse;
-	mouse.x = App->input->GetMouseX();
-	mouse.y = App->input->GetMouseY();
-	int ray_hit = ray.DistanceTo(mouse);
-
-	fVector normal(0.0f, 0.0f);
-
-	// All draw functions ------------------------------------------------------
-	p2List_item<PhysBody*>* c = circles.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-
-	c = boxes.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
-		if(ray_on)
-		{
-			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
-			if(hit >= 0)
-				ray_hit = hit;
-		}
-		c = c->next;
-	}
-
-	c = ricks.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-
-
-	// ray -----------------
-	if(ray_on == true)
-	{
-		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
-		destination.Normalize();
-		destination *= ray_hit;
-
-		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
-
-		if(normal.x != 0.0f)
-			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
-	}
-
-	//Light all planets
-	if (lightPlanet1 == true)
-	{
-		App->renderer->Blit(planet_1_shine, 267, 263, NULL);
-	}
-
-	lightPlanet1 = false;
-
-	if (lightPlanet2 == true)
-	{
-		App->renderer->Blit(planet_2_shine, 230, 358, NULL);
-	}
-
-	lightPlanet2 = false;
-
-	if (lightPlanet3 == true)
-	{
-		App->renderer->Blit(planet_2_shine, 262, 421, NULL);
-	}
-
-	lightPlanet3 = false;
-
-	if (lightPlanet4 == true)
-	{
-		App->renderer->Blit(planet_2_shine, 199, 451, NULL);
-	}
-
-	lightPlanet4 = false;
-
-	if (lightPlanet5 == true)
-	{
-		App->renderer->Blit(planet_5_shine, 307, 480, NULL);
-	}
-	
-	lightPlanet5 = false;
-
-	if (lightPlanet6 == true)
-	{
-		App->renderer->Blit(planet_6_shine, 57, 589, NULL);
-	}
-
-	lightPlanet6 = false;
-
-	if (lightSatellite == true)
-	{
-		App->renderer->Blit(satellite, 131, 349, NULL);
-	}
-
-	lightSatellite = false;
-
-	if (lightAlien == true)
-	{
-		App->renderer->Blit(alien_texture, 83, 292, NULL);
-	}
-	
-	if (closekicker == true)
-	{
-		closekicker = false;
-		/*kickercloser = App->physics->CreateRectangle(449, 205, 10, 100,b2_dynamicBody);*/
-	}
-	if (woodentransport)
-	{
-		cont+=10;
-		App->player->ball->body->SetTransform({ PIXEL_TO_METERS(1000 + 0.2f), PIXEL_TO_METERS(1000) }, 0.0f);
-		App->player->ball->body->SetLinearVelocity({ 0,0 });
-		if (cont > 1000)
-		{
-			App->audio->PlayFx(woodenoutfx);
-			woodentransport = false;
-			App->player->ball->body->SetTransform({ PIXEL_TO_METERS(399 + 0.2f), PIXEL_TO_METERS(130) }, 0.0f);
-			App->player->ball->body->SetLinearVelocity({ 0,40 });
-			cont = 0;
-		}
-	}
-
-	lightAlien = false;
-
-	if (lightMiniWhitePlanet == true)
-	{
-		App->renderer->Blit(miniplanet_texture, 185, 544, NULL);
-	}
-
-	lightMiniWhitePlanet = false;
-
-	if (lightMiniWhitePlanet2 == true)
-	{
-		App->renderer->Blit(miniplanet_texture, 214, 506, NULL);
-	}
-
-	lightMiniWhitePlanet2 = false;
-
-	if (lightMiniWhitePlanet3 == true)
-	{
-		App->renderer->Blit(miniplanet_texture, 161, 583, NULL);
-	}
-
-	lightMiniWhitePlanet3 = false;
-
-	if (lightRedPlanet1 == true)
-	{
-		App->renderer->Blit(red_planet_texture, 289, 554, NULL);
-	}
-
-	lightRedPlanet1 = false;
-
-	if (lightRedPlanet2 == true)
-	{
-		App->renderer->Blit(red_planet_texture, 325, 592, NULL);
-	}
-
-	lightRedPlanet2 = false;
-
-	if (lightRedPlanet3 == true)
-	{
-		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
-	}
-
-	lightRedPlanet3 = false;
-
-	if (lightRedPlanet3 == true)
-	{
-		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
-	}
-
-	lightRedPlanet3 = false;
-
-	// Light little dots
-
-	if (lightgreendot == true)
-	{
-		App->renderer->Blit(green_dot_texture, 425,136, NULL);
-	}
-
-	if (lightgreendot2 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 387, 121, NULL);
-	}
-
-	if (lightgreendot3 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 350, 113, NULL);
-	}
-
-	if (lightgreendot4 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 305, 114, NULL);
-	}
-
-	if (lightgreendot5 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 257, 119, NULL);
-	}
-
-	if (lightgreendot6 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 214, 134, NULL);
-	}
-
-	if (lightgreendot7 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 178, 151, NULL);
-	}
-
-	if (lightgreendot8 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 148, 175, NULL);
-	}
-
-	if (lightgreendot9 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 123, 204, NULL);
-	}
-
-	if (lightgreendot10 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 100, 233, NULL);
-	}
-
-	if (lightgreendot11 == true)
-	{
-		App->renderer->Blit(green_dot_texture, 81, 263, NULL);
-	}
-
-	//Score
-	char score_text[10];
-	char bestScore_text[10];
-	char recentScore_text[10];
-	
-	sprintf_s(score_text, 10, "%d", App->player->score);
-	sprintf_s(bestScore_text, 10, "%d", App->player->bestScore);
-	sprintf_s(recentScore_text, 10, "%d", App->player->recentScore);
-	
-	App->fonts->BlitText(250, 43, font_score, score_text);
-	App->fonts->BlitText(250, 20, font_score, bestScore_text);
-	App->fonts->BlitText(420, 43, font_score, recentScore_text);
-
-	//Setting Title
-	char lives[4];
-	char Title[64] = "Pinball in Space | ";
-	char numLives[32] = "Lives: ";
-	
-	sprintf_s(lives, "%d", App->player->lives);
-	strcat_s(Title, numLives);
-	strcat_s(Title, lives);
-
-	App->window->SetTitle(Title);
-
-	return UPDATE_CONTINUE;
-}
-
-void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
-{
-	if (App->player->getPoints == false && (bodyA == planet_1_sensor))
-	{
-		App->player->getPoints = true;
-		lightPlanet1 = true;
-	}
-
-	if (App->player->getPoints == false && (bodyA == planet_2_sensor))
-	{
-		App->player->getPoints = true;
-		lightPlanet2 = true;
-	}
-
-	if (App->player->getPoints == false && (bodyA == planet_3_sensor))
-	{
-		App->player->getPoints = true;
-		lightPlanet3 = true;
-	}
-
-	if (App->player->getPoints == false && (bodyA == planet_4_sensor))
-	{
-		App->player->getPoints = true;
-		lightPlanet4 = true;
-	}
-
-	if (App->player->getPoints == false && (bodyA == planet_5_sensor))
-	{
-		App->player->getPoints = true;
-		lightPlanet5 = true;
-	}
-
-	if (App->player->getPoints == false && (bodyA == planet_6_sensor))
-	{
-		App->player->getPoints = true;
-
-		lightPlanet6 = true;
-	}
-
-	if ((bodyA == planet_1_sensor) || (bodyA == planet_2_sensor) || (bodyA == planet_3_sensor) || (bodyA == planet_4_sensor) || (bodyA == planet_5_sensor) || (bodyA == planet_6_sensor)) {
-		App->audio->PlayFx(dingfx);
-	}
-
-	if (App->player->getPoints == false && (bodyA == satelite_sensor))
-	{
-		App->player->getPoints = true;
-		App->audio->PlayFx(satelitefx);
-		lightSatellite = true;
-	}
-
-	if ((bodyA == alienSensor))
-	{
-		App->player->getPoints = true;
-		App->audio->PlayFx(alienfx);
-		lightAlien = true;
-	}
-
-	if ((bodyA == woodensensor)) {
-		App->player->getPoints = true;
-		App->audio->PlayFx(woodeninfx);
-		woodentransport = true;
-	}
-
-	if (bodyA == kickerSensor && closekicker == false)
-	{
-		closekicker = true;
-	}
-
-	if ((bodyA == miniPlanetSensor)) {
-		lightMiniWhitePlanet = true;
-
-	}
-
-	if ((bodyA == miniPlanetSensor2)) {
-		lightMiniWhitePlanet2 = true;
-	}
-
-	if ((bodyA == miniPlanetSensor3)) {
-		lightMiniWhitePlanet3 = true;
-	}
-
-	if ((bodyA == redPlanetSensor1)) {
-		lightRedPlanet1 = true;
-	}
-
-	if ((bodyA == redPlanetSensor2)) {
-		lightRedPlanet2 = true;
-	}
-
-	if ((bodyA == redPlanetSensor3)) {
-		lightRedPlanet3 = true;
-	}
-
-	if ((bodyA == miniPlanetSensor) || (bodyA == miniPlanetSensor2) || (bodyA == miniPlanetSensor3)) {
-		App->audio->PlayFx(miniplanetfx);
-	}
-
-
-	if ((bodyA == miniPlanetSensor)) {
-		App->audio->PlayFx(miniplanetfx);
-	}
-	if ((bodyA == greendot))
-	{
-		lightgreendot = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot2))
-	{
-		lightgreendot2 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot3))
-	{
-		lightgreendot3 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot4))
-	{
-		lightgreendot4 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot5))
-	{
-		lightgreendot5 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot6))
-	{
-		lightgreendot6 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot7))
-	{
-		lightgreendot7 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot8))
-	{
-		lightgreendot8 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot9))
-	{
-		lightgreendot9 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot10))
-	{
-		lightgreendot10 = true;
-		App->audio->PlayFx(pointfx);
-	}
-	if ((bodyA == greendot11))
-	{
-		lightgreendot11 = true;
-		App->audio->PlayFx(pointfx);
-	}
 
 }

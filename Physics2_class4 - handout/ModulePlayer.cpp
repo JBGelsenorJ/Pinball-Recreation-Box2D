@@ -28,6 +28,7 @@ bool ModulePlayer::Start()
 	right_flipper = App->textures->Load("assets/right_flipper.png");
 	upper_flipper = App->textures->Load("assets/upper_flipper.png");
 
+
 	//bools
 	getPoints = false;
 	getBonus = true;
@@ -122,6 +123,20 @@ update_status ModulePlayer::Update()
 		ball->body->SetTransform({ PIXEL_TO_METERS(480 + 0.2f), PIXEL_TO_METERS(700 - 0.2f) }, 0.0f);
 		ball->body->SetLinearVelocity({ 0,0 });
 		App->scene_intro->closekicker = false;
+
+		//turning off lights
+		App->scene_intro->lightgreendot = false;
+		App->scene_intro->lightgreendot2 = false;
+		App->scene_intro->lightgreendot3 = false;
+		App->scene_intro->lightgreendot4 = false;
+		App->scene_intro->lightgreendot5 = false;
+		App->scene_intro->lightgreendot6 = false;
+		App->scene_intro->lightgreendot7 = false;
+		App->scene_intro->lightgreendot8 = false;
+		App->scene_intro->lightgreendot9 = false;
+		App->scene_intro->lightgreendot10 = false;
+		App->scene_intro->lightgreendot11 = false;
+
 		if (lives > 0)
 		{
 			lives -= 1;
@@ -144,15 +159,30 @@ update_status ModulePlayer::Update()
 		restart = false;
 	}
 
-	//Bonus
+	//Bonuses
 	if(getBonus == true)
 	{
 		if (score >= 1000)
 		{
 			extralife = true;
 		}
-	}
 
+	}
+	if (App->scene_intro->lightgreendot == true && App->scene_intro->lightgreendot2 == true && App->scene_intro->lightgreendot3 == true && App->scene_intro->lightgreendot4 == true && App->scene_intro->lightgreendot5 == true && App->scene_intro->lightgreendot6 == true && App->scene_intro->lightgreendot7 == true && App->scene_intro->lightgreendot8 == true && App->scene_intro->lightgreendot9 == true && App->scene_intro->lightgreendot10 == true && App->scene_intro->lightgreendot11 == true)
+	{
+		score += 200;
+		App->scene_intro->lightgreendot = false;
+		App->scene_intro->lightgreendot2 = false;
+		App->scene_intro->lightgreendot3 = false;
+		App->scene_intro->lightgreendot4 = false;
+		App->scene_intro->lightgreendot5 = false;
+		App->scene_intro->lightgreendot6 = false;
+		App->scene_intro->lightgreendot7 = false;
+		App->scene_intro->lightgreendot8 = false;
+		App->scene_intro->lightgreendot9 = false;
+		App->scene_intro->lightgreendot10 = false;
+		App->scene_intro->lightgreendot11 = false;
+	}
 	if(extralife == true)
 	{
 		lives += 1;

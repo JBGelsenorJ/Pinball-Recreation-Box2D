@@ -24,12 +24,14 @@ bool ModulePlayer::Start()
 	ball_texture = App->textures->Load("assets/ball.png");
 	right_board = App->textures->Load("assets/right_board.png");
 	right_block = App->textures->Load("assets/right_block.png");
-
+	left_flipper = App->textures->Load("assets/left_flipper.png");
+	right_flipper = App->textures->Load("assets/right_flipper.png");
+	
 	//bools
 	getPoints = false;
 
 	//Creating ball
-	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.6f);
+	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.2f);
 	
 	ballSensor = App->physics->CreateRectangleSensor(472 + 10, 741 + 5, 25, 21);
 	ballSensor->listener = this;
@@ -148,13 +150,33 @@ update_status ModulePlayer::Update()
 		getPoints = false;
 	}
 
-	//Blit everything
+	//All draw fuction
+
+	//Draw ball
 	int x, y;
 	ball->GetPosition(x, y);
 
 	App->renderer->Blit(ball_texture, x, y);
 	App->renderer->Blit(right_board, 313, 550, NULL);
 	App->renderer->Blit(right_block, 405, 212, NULL);
+	
+	//Draw flippers
+	if (lFlipper != NULL)
+	{
+		int x, y;
+		lFlipper->GetPosition(x, y);
+		App->renderer->Blit(left_flipper, x, y, NULL, 1.0f, lFlipper->GetRotation());
+	}
+
+	if (rFlipper != NULL)
+	{
+		int x, y;
+		rFlipper->GetPosition(x, y);
+		App->renderer->Blit(right_flipper, x, y, NULL, 1.0f, rFlipper->GetRotation());
+	}
+
+	
+
 
 	return UPDATE_CONTINUE;
 }
@@ -178,8 +200,8 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 void ModulePlayer::setLeftFlipper() {
 
-	lFlipper = App->physics->CreateRectangle(180, 710, 80, 18, b2_dynamicBody);
-	lFlipperPivot = App->physics->CreateCircle(180, 710, 9, b2_staticBody, 0.0f);
+	lFlipper = App->physics->CreateRectangle(185, 782, 72, 18, b2_dynamicBody);
+	lFlipperPivot = App->physics->CreateCircle(185, 782, 4, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
 
@@ -206,8 +228,8 @@ void ModulePlayer::setLeftFlipper() {
 
 void ModulePlayer::setRightFlipper() {
 
-	rFlipper = App->physics->CreateRectangle(310, 730, 80, 18, b2_dynamicBody);
-	rFlipperPivot = App->physics->CreateCircle(310, 730, 9, b2_staticBody, 0.0f);
+	rFlipper = App->physics->CreateRectangle(330, 782, 72, 18, b2_dynamicBody);
+	rFlipperPivot = App->physics->CreateCircle(330, 782, 4, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
 

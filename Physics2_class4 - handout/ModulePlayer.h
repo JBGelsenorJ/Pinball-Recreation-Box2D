@@ -32,6 +32,8 @@ public:
 	SDL_Texture* ball_texture;
 	SDL_Texture* right_board;
 	SDL_Texture* right_block;
+	SDL_Texture* left_flipper;
+	SDL_Texture* right_flipper;
 
 	PhysBody* ball;
 	PhysBody* ballSensor;

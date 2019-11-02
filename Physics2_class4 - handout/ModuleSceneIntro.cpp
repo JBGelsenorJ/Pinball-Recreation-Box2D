@@ -32,13 +32,12 @@ bool ModuleSceneIntro::Start()
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 	background = App->textures->Load("assets/pinball_board_empty.png");
-	leftFlipper = App->textures->Load("assets/left_flipper.png");
-	rightFlipper = App->textures->Load("assets/right_flipper.png");
-	upperFlipper = App->textures->Load("assets/upper_flipper.png");
 	planet_1_shine = App->textures->Load("assets/planet1.png");
 	planet_2_shine = App->textures->Load("assets/planet2.png");
 	planet_5_shine = App->textures->Load("assets/planet5.png");
 	planet_6_shine = App->textures->Load("assets/planet6.png");
+	satellite = App->textures->Load("assets/satellite.png");
+	alien_texture = App->textures->Load("assets/alien.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -85,6 +84,14 @@ bool ModuleSceneIntro::Start()
 	planet_6 = App->physics->CreateCircle(93, 624, 33, b2_staticBody, 0.8f);
 	planet_6_sensor = App->physics->CreateCircle(93, 624, 37, b2_staticBody, 2.0f, true);
 	planet_6_sensor->listener = this;
+
+	satelite = new PhysBody();
+	satelite = App->physics->CreateCircle(155, 365, 8, b2_staticBody, 0.8f);
+	satelite_sensor = App->physics->CreateCircle(155, 365, 12, b2_staticBody, 2.0f, true);
+	satelite_sensor->listener = this;
+
+	alienSensor = App->physics->CreateCircle(96, 305, 14, b2_staticBody, 2.0f, true);
+	alienSensor->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -407,53 +414,6 @@ bool ModuleSceneIntro::Start()
 	};
 
 	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f, false);
-	
-	int satelitec[38] = {
-	163, 365,
-	168, 356,
-	160, 350,
-	157, 357,
-	152, 360,
-	133, 347,
-	130, 353,
-	149, 365,
-	148, 369,
-	144, 369,
-	144, 373,
-	144, 379,
-	156, 378,
-	156, 374,
-	159, 370,
-	179, 381,
-	182, 375,
-	167, 368,
-	174, 364
-	};
-
-	App->physics->CreateChain(0, 0, satelitec, 38, b2_staticBody, 0.5f, false);
-	satelite = App->physics->CreateChain(0, 0, satelitec, 38, b2_staticBody, 0.0f, true);
-	satelite->listener = this;
-
-	int alienc[26] = {
-	98, 324,
-	104, 318,
-	108, 310,
-	110, 304,
-	107, 299,
-	105, 296,
-	100, 292,
-	91, 292,
-	86, 297,
-	83, 303,
-	84, 311,
-	88, 318,
-	92, 324
-	};
-
-	//Creating alien
-	App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.5f, false);
-	alien = App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.9f, true);
-	alien->listener = this;
 
 
 	return ret;
@@ -527,26 +487,6 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 
-	if (lflipper != NULL)
-	{
-		int x, y;
-		lflipper->GetPosition(x, y);
-		App->renderer->Blit(leftFlipper, x, y, NULL, 1.0f, lflipper->GetRotation());
-	}
-
-	if (rflipper != NULL)
-	{
-		int x, y;
-		rflipper->GetPosition(x, y);
-		App->renderer->Blit(rightFlipper, x, y, NULL, 1.0f, rflipper->GetRotation());
-	}
-
-	if (uflipper != NULL)
-	{
-		int x, y;
-		uflipper->GetPosition(x, y);
-		App->renderer->Blit(upperFlipper, x, y, NULL, 1.0f, uflipper->GetRotation());
-	}
 
 	// ray -----------------
 	if(ray_on == true)
@@ -604,6 +544,20 @@ update_status ModuleSceneIntro::Update()
 
 	lightPlanet6 = false;
 
+	if (lightSatellite == true)
+	{
+		App->renderer->Blit(satellite, 131, 349, NULL);
+	}
+
+	lightSatellite = false;
+
+	if (lightAlien == true)
+	{
+		App->renderer->Blit(alien_texture, 83, 292, NULL);
+	}
+
+	lightAlien = false;
+
 
 
 	//Score
@@ -631,44 +585,52 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(dingfx);
 		lightPlanet1 = true;
 	}
+
 	if (App->player->getPoints == false && (bodyA == planet_2_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
 		lightPlanet2 = true;
 	}
+
 	if (App->player->getPoints == false && (bodyA == planet_3_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
 		lightPlanet3 = true;
 	}
+
 	if (App->player->getPoints == false && (bodyA == planet_4_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
 		lightPlanet4 = true;
 	}
+
 	if (App->player->getPoints == false && (bodyA == planet_5_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
 		lightPlanet5 = true;
 	}
+
 	if (App->player->getPoints == false && (bodyA == planet_6_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
 		lightPlanet6 = true;
 	}
-	if ((bodyA == satelite))
+
+	if (App->player->getPoints == false && (bodyA == satelite_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(satelitefx);
+		lightSatellite = true;
 	}
-	if ((bodyA == alien))
+	if ((bodyA == alienSensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(alienfx);
+		lightAlien = true;
 	}
 }

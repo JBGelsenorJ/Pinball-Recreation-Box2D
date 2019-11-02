@@ -58,6 +58,7 @@ bool ModuleSceneIntro::Start()
 	woodeninfx = App->audio->LoadFx("assets/audio/boost.wav");
 	woodenoutfx = App->audio->LoadFx("assets/audio/lasershot.wav");
 	miniplanetfx = App->audio->LoadFx("assets/audio/dum.wav");
+	pointfx = App->audio->LoadFx("assets/audio/beeppoint.wav");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -695,11 +696,63 @@ update_status ModuleSceneIntro::Update()
 
 	lightRedPlanet3 = false;
 
+	// Light little dots
+
 	if (lightgreendot == true)
 	{
 		App->renderer->Blit(green_dot_texture, 425,136, NULL);
 	}
-	
+
+	if (lightgreendot2 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 387, 121, NULL);
+	}
+
+	if (lightgreendot3 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 350, 113, NULL);
+	}
+
+	if (lightgreendot4 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 305, 114, NULL);
+	}
+
+	if (lightgreendot5 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 257, 119, NULL);
+	}
+
+	if (lightgreendot6 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 214, 134, NULL);
+	}
+
+	if (lightgreendot7 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 178, 151, NULL);
+	}
+
+	if (lightgreendot8 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 148, 175, NULL);
+	}
+
+	if (lightgreendot9 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 123, 204, NULL);
+	}
+
+	if (lightgreendot10 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 100, 233, NULL);
+	}
+
+	if (lightgreendot11 == true)
+	{
+		App->renderer->Blit(green_dot_texture, 81, 263, NULL);
+	}
+
 	//Score
 	char score_text[10];
 	char bestScore_text[10];

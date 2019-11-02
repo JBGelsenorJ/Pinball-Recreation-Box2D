@@ -91,6 +91,7 @@ public:
 	uint woodeninfx = 0;
 	uint woodenoutfx = 0;
 	uint miniplanetfx = 0;
+	uint pointfx = 0;
 
 	p2Point<int> ray;
 	

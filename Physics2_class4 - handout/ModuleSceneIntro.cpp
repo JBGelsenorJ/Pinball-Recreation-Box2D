@@ -850,6 +850,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if ((bodyA == miniPlanetSensor)) {
 		lightMiniWhitePlanet = true;
+
 	}
 
 	if ((bodyA == miniPlanetSensor2)) {
@@ -883,45 +884,57 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if ((bodyA == greendot))
 	{
 		lightgreendot = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot2))
 	{
 		lightgreendot2 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot3))
 	{
 		lightgreendot3 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot4))
 	{
 		lightgreendot4 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot5))
 	{
 		lightgreendot5 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot6))
 	{
 		lightgreendot6 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot7))
 	{
 		lightgreendot7 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot8))
 	{
 		lightgreendot8 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot9))
 	{
 		lightgreendot9 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot10))
 	{
 		lightgreendot10 = true;
+		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot11))
 	{
 		lightgreendot11 = true;
+		App->audio->PlayFx(pointfx);
 	}
+
 }

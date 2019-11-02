@@ -53,6 +53,8 @@ public:
 	bool shoot;
 	bool restart;
 	bool getPoints;
+	bool getBonus;
+	bool extralife;
 
 	uint force_counter;
 	uint score;

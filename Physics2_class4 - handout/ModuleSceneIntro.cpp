@@ -8,6 +8,7 @@
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
 #include "ModuleFonts.h"
+#include "ModuleWindow.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,7 +25,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
+	
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	//Loading textures
@@ -86,7 +87,7 @@ bool ModuleSceneIntro::Start()
 	planet_6_sensor->listener = this;
 
 	satelite = new PhysBody();
-	satelite = App->physics->CreateCircle(155, 365, 8, b2_staticBody, 0.8f);
+	satelite = App->physics->CreateCircle(155, 365, 8, b2_staticBody, 1.0f);
 	satelite_sensor = App->physics->CreateCircle(155, 365, 12, b2_staticBody, 2.0f, true);
 	satelite_sensor->listener = this;
 
@@ -558,8 +559,6 @@ update_status ModuleSceneIntro::Update()
 
 	lightAlien = false;
 
-
-
 	//Score
 	char score_text[10];
 	char bestScore_text[10];
@@ -573,6 +572,16 @@ update_status ModuleSceneIntro::Update()
 	App->fonts->BlitText(250, 20, font_score, bestScore_text);
 	App->fonts->BlitText(420, 43, font_score, recentScore_text);
 
+	//Setting Title
+	char lives[4];
+	char Title[64] = "Pinball in Space | ";
+	char numLives[32] = "Lives: ";
+	
+	sprintf_s(lives, "%d", App->player->lives);
+	strcat_s(Title, numLives);
+	strcat_s(Title, lives);
+
+	App->window->SetTitle(Title);
 
 	return UPDATE_CONTINUE;
 }

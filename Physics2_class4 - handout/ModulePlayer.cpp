@@ -30,6 +30,8 @@ bool ModulePlayer::Start()
 
 	//bools
 	getPoints = false;
+	getBonus = true;
+	extralife = false;
 
 	//Creating ball
 	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.2f);
@@ -144,6 +146,23 @@ update_status ModulePlayer::Update()
 		restart = false;
 	}
 
+	//Bonus
+	if(getBonus == true)
+	{
+		if (score >= 1000)
+		{
+			extralife = true;
+		}
+	}
+
+	if(extralife == true)
+	{
+		lives += 1;
+		getBonus = false;
+	}
+
+	extralife = false;
+
 	//Get Points
 	if (getPoints == true)
 	{
@@ -184,7 +203,6 @@ update_status ModulePlayer::Update()
 	}
 
 	
-
 
 	return UPDATE_CONTINUE;
 }

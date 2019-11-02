@@ -30,6 +30,7 @@ public:
 	PhysBody* planet_6;
 	PhysBody* satelite;
 	PhysBody* alien;
+	PhysBody* woodensensor;
 	PhysBody* sensor;
 	PhysBody* planet_1_sensor;
 	PhysBody* planet_2_sensor;

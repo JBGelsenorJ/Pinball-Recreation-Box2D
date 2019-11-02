@@ -372,7 +372,8 @@ bool ModuleSceneIntro::Start()
 
 	};
 	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5, false);
-
+	woodensensor = App->physics->CreateRectangleSensor(108,526,20,40);
+	woodensensor->listener = this;
 	int pinball_board_middle_right[60] = {
 	373, 444,
 	374, 437,
@@ -670,5 +671,10 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(alienfx);
+	}
+	if ((bodyA == woodensensor)) {
+		App->player->getPoints = true;
+		/*App->audio->PlayFx(alienfx);*/
+		/*this.body.position->Set(10, 20);*/
 	}
 }

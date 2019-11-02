@@ -41,10 +41,10 @@ bool ModuleSceneIntro::Start()
 	alien_texture = App->textures->Load("assets/alien.png");
 	miniplanet_texture = App->textures->Load("assets/whitelight.png");
 	red_planet_texture = App->textures->Load("assets/redlight.png");
-	green_light_texture1 = App->textures->Load("assets/greenbiglight1.png");
-	//green_light_texture2 = App->textures->Load("assets/greenbiglight1.png");
-	//green_light_texture3 = App->textures->Load("assets/greenbiglight1.png");
 	green_dot_texture = App->textures->Load("assets/greendot.png");
+	green_light_texture1 = App->textures->Load("assets/greenbiglight1.png");
+	green_light_texture2 = App->textures->Load("assets/greenbiglight2.png");
+	green_light_texture3 = App->textures->Load("assets/greenbiglight3.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -123,6 +123,7 @@ bool ModuleSceneIntro::Start()
 
 	redPlanetSensor3 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
 	redPlanetSensor3->listener = this;
+
 	// Little green dots
 	greendot  = App->physics->CreateCircle(425, 136, 2, b2_staticBody, 2.0f, true);
 	greendot->listener = this;
@@ -157,8 +158,14 @@ bool ModuleSceneIntro::Start()
 	greendot11 = App->physics->CreateCircle(85, 267, 2, b2_staticBody, 2.0f, true);
 	greendot11->listener = this;
 
-	greenBigLight1 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
-	redPlanetSensor3->listener = this;
+	greenBigSensor1 = App->physics->CreateCircle(90, 215, 10, b2_staticBody, 2.0f, true);
+	greenBigSensor1->listener = this;
+
+	greenBigSensor2 = App->physics->CreateCircle(102, 450, 10, b2_staticBody, 2.0f, true);
+	greenBigSensor2->listener = this;
+
+	greenBigSensor3 = App->physics->CreateCircle(388, 427, 10, b2_staticBody, 2.0f, true);
+	greenBigSensor3->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -448,6 +455,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5, false);
 	woodensensor = App->physics->CreateRectangleSensor(108,526,20,40);
 	woodensensor->listener = this;
+
 	int pinball_board_middle_right[60] = {
 	373, 444,
 	374, 437,
@@ -629,6 +637,7 @@ update_status ModuleSceneIntro::Update()
 		closekicker = false;
 		/*kickercloser = App->physics->CreateRectangle(449, 205, 10, 100,b2_dynamicBody);*/
 	}
+
 	if (woodentransport)
 	{
 		cont+=10;
@@ -695,11 +704,27 @@ update_status ModuleSceneIntro::Update()
 
 	lightRedPlanet3 = false;
 
-	if (lightgreendot == true)
+	if (lightGreenBig1 == true)
 	{
-		App->renderer->Blit(green_dot_texture, 425,136, NULL);
+		App->renderer->Blit(green_light_texture1, 81, 203, NULL);
 	}
 	
+	lightGreenBig1 = false;
+
+	if (lightGreenBig2 == true)
+	{
+		App->renderer->Blit(green_light_texture2, 102, 440, NULL);
+	}
+
+	lightGreenBig2 = false;
+
+	if (lightGreenBig3 == true)
+	{
+		App->renderer->Blit(green_light_texture3, 378, 418, NULL);
+	}
+
+	lightGreenBig3 = false;
+
 	//Score
 	char score_text[10];
 	char bestScore_text[10];
@@ -870,5 +895,20 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if ((bodyA == greendot11))
 	{
 		lightgreendot11 = true;
+	}
+
+	if ((bodyA == greenBigSensor1))
+	{
+		lightGreenBig1 = true;
+	}
+
+	if ((bodyA == greenBigSensor2))
+	{
+		lightGreenBig2 = true;
+	}
+
+	if ((bodyA == greenBigSensor3))
+	{
+		lightGreenBig3 = true;
 	}
 }

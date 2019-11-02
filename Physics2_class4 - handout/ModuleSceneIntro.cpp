@@ -25,13 +25,6 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	b2RevoluteJointDef lflipperdef;
-	b2RevoluteJointDef rflipperdef;
-	b2RevoluteJointDef uflipperdef;
-	b2RevoluteJoint* lflipper_joint;
-	b2RevoluteJoint* rflipper_joint;
-	b2RevoluteJoint* uflipper_joint;
-
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	//Loading textures
@@ -456,37 +449,12 @@ bool ModuleSceneIntro::Start()
 	88, 318,
 	92, 324
 	};
-	
+
+	//Creating alien
 	App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.5f, false);
 	alien = App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.9f, true);
 	alien->listener = this;
 
-	rflipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
-	lflipper = App->physics->CreateRectangle(210, 776, 69, 14, b2_dynamicBody);
-	uflipper = App->physics->CreateRectangle(395, 324, 50, 14, b2_dynamicBody);
-
-	l_flipper_joint = App->physics->CreateCircle(182, 775, 5, b2_staticBody, 0.5f);
-	r_flipper_joint = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.5f);
-	u_flipper_joint = App->physics->CreateCircle(416, 326, 5, b2_staticBody, 0.5f);
-
-	lflipperdef.Initialize(l_flipper_joint->body, lflipper->body, l_flipper_joint->body->GetWorldCenter());
-	rflipperdef.Initialize(r_flipper_joint->body, rflipper->body, r_flipper_joint->body->GetWorldCenter());
-	uflipperdef.Initialize(u_flipper_joint->body, uflipper->body, u_flipper_joint->body->GetWorldCenter());
-
-	lflipperdef.enableLimit = true;
-	rflipperdef.enableLimit = true;
-	uflipperdef.enableLimit = true;
-
-	lflipperdef.lowerAngle = -30 * DEGTORAD;
-	lflipperdef.upperAngle = 30 * DEGTORAD;
-	rflipperdef.lowerAngle = -30 * DEGTORAD;
-	rflipperdef.upperAngle = 30 * DEGTORAD;
-	uflipperdef.lowerAngle = -30 * DEGTORAD;
-	uflipperdef.upperAngle = 30 * DEGTORAD;
-
-	lflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&lflipperdef);
-	rflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&rflipperdef);
-	uflipper_joint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&uflipperdef);
 
 	return ret;
 }

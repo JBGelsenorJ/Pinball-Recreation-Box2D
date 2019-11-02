@@ -1,7 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "p2List.h"
 #include "p2Point.h"
+#include "Box2D/Box2D/Box2D.h"
 
 #define PIXELS_PER_METER 50.0f // if touched change METER_PER_PIXEL too
 #define METER_PER_PIXEL 0.02f // this is 1 / PIXELS_PER_METER !
@@ -19,6 +21,12 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+
+private:
+	void setLeftFlipper();
+	void setRightFlipper();
+	//void setMiniFlipper();
+
 public:
 	
 	SDL_Texture* ball_texture;
@@ -28,6 +36,13 @@ public:
 	PhysBody* ball;
 	PhysBody* ballSensor;
 	PhysBody* Restart;
+	PhysBody* lFlipper;
+	PhysBody* lFlipperPivot;
+	PhysBody* rFlipper;
+	PhysBody* rFlipperPivot;
+
+	b2RevoluteJoint* lFlipperJoint;
+	b2RevoluteJoint* rFlipperJoint;
 
 	bool shoot;
 	bool restart;

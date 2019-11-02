@@ -28,13 +28,13 @@ bool ModulePlayer::Start()
 	//bools
 	getPoints = false;
 
-	//Bodies
+	//Creating ball
 	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.6f);
 	
 	ballSensor = App->physics->CreateRectangleSensor(472 + 10, 741 + 5, 25, 21);
 	ballSensor->listener = this;
 
-
+	//Creating restart sensor
 	Restart = App->physics->CreateRectangleSensor(240, 870, 480, 10);
 	Restart->listener = this;
 
@@ -44,6 +44,10 @@ bool ModulePlayer::Start()
 	lives = 3;
 	recentScore = 0;
 	bestScore = 0;
+
+	//Setting Flippers
+	setLeftFlipper();
+	setRightFlipper();
 
 	return true;
 }
@@ -81,25 +85,30 @@ update_status ModulePlayer::Update()
 		force_counter = 0;
 		
 	}
+
+	//Moving Flippers
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		App->scene_intro->lflipper->body->ApplyAngularImpulse(-2.0f, true);
+		lFlipper->body->ApplyAngularImpulse(-2.0f, true);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		App->scene_intro->rflipper->body->ApplyAngularImpulse(2.0f, true);
-		App->scene_intro->uflipper->body->ApplyAngularImpulse(2.0f, true);
+		rFlipper->body->ApplyAngularImpulse(2.0f, true);
+		//App->scene_intro->uflipper->body->ApplyAngularImpulse(2.0f, true);
 		
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 	{
 		App->audio->PlayFx(App->scene_intro->flipperfx);
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 	{
-	App->audio->PlayFx(App->scene_intro->flipperfx);
+		App->audio->PlayFx(App->scene_intro->flipperfx);
 	}
+
 	//Restarting game
 	if (restart == true)
 	{
@@ -147,9 +156,6 @@ update_status ModulePlayer::Update()
 	App->renderer->Blit(right_board, 313, 550, NULL);
 	App->renderer->Blit(right_block, 405, 212, NULL);
 
-
-
-
 	return UPDATE_CONTINUE;
 }
 
@@ -167,8 +173,65 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		}
 		
 	}
+		
+}
+
+void ModulePlayer::setLeftFlipper() {
+
+	lFlipper = App->physics->CreateRectangle(180, 710, 80, 18, b2_dynamicBody);
+	lFlipperPivot = App->physics->CreateCircle(180, 710, 9, b2_staticBody, 0.0f);
+
+	b2RevoluteJointDef revoluteJointDef;
+
+	revoluteJointDef.bodyA = lFlipper->body;
+	revoluteJointDef.bodyB = lFlipperPivot->body;
+	lFlipper->body->SetGravityScale(10.0f);
+
+
+	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(-30), 0);
+	revoluteJointDef.localAnchorB.Set(0, 0);
+	revoluteJointDef.collideConnected = false;
+
+	revoluteJointDef.enableLimit = true;
+	revoluteJointDef.upperAngle = 35 * DEGTORAD;
+	revoluteJointDef.lowerAngle = -30 * DEGTORAD;
+
+	revoluteJointDef.motorSpeed = 2000.0f * DEGTORAD;
+	revoluteJointDef.maxMotorTorque = 1500.0f;
+	revoluteJointDef.enableMotor = false;
+
+	lFlipperJoint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&revoluteJointDef);
 
 }
+
+void ModulePlayer::setRightFlipper() {
+
+	rFlipper = App->physics->CreateRectangle(310, 730, 80, 18, b2_dynamicBody);
+	rFlipperPivot = App->physics->CreateCircle(310, 730, 9, b2_staticBody, 0.0f);
+
+	b2RevoluteJointDef revoluteJointDef;
+
+	revoluteJointDef.bodyA = rFlipper->body;
+	revoluteJointDef.bodyB = rFlipperPivot->body;
+
+	rFlipper->body->SetGravityScale(10.0f);
+
+
+	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(30), 0);
+	revoluteJointDef.localAnchorB.Set(0, 0);
+	revoluteJointDef.collideConnected = false;
+
+	revoluteJointDef.enableLimit = true;
+	revoluteJointDef.upperAngle = 35 * DEGTORAD;
+	revoluteJointDef.lowerAngle = -30 * DEGTORAD;
+
+	revoluteJointDef.motorSpeed = -2000.0f * DEGTORAD;
+	revoluteJointDef.maxMotorTorque = 1500.0f;
+	revoluteJointDef.enableMotor = false;
+
+	rFlipperJoint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&revoluteJointDef);
+}
+
 
 
 

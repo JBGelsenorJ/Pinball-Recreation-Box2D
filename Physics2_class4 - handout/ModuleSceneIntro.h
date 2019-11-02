@@ -43,6 +43,10 @@ public:
 	PhysBody* satelite_sensor;
 	PhysBody* alienSensor;
 	PhysBody* kickerSensor;
+	PhysBody* miniPlanetSensor;
+	PhysBody* miniPlanetSensor2;
+	PhysBody* miniPlanetSensor3;
+
 	bool sensed;
 
 	SDL_Texture* circle;
@@ -55,6 +59,7 @@ public:
 	SDL_Texture* planet_6_shine;
 	SDL_Texture* satellite;
 	SDL_Texture* alien_texture;
+	SDL_Texture* miniplanet_texture;
 	
 
 	
@@ -81,6 +86,10 @@ public:
 	bool lightAlien;
 	bool closekicker;
 	bool woodentransport = false;
+	bool lightMiniWhitePlanet;
+	bool lightMiniWhitePlanet2;
+	bool lightMiniWhitePlanet3;
+
 	int font_score = -1;
 	uint move = 0;
 	uint cont = 0;

@@ -39,6 +39,7 @@ bool ModuleSceneIntro::Start()
 	planet_6_shine = App->textures->Load("assets/planet6.png");
 	satellite = App->textures->Load("assets/satellite.png");
 	alien_texture = App->textures->Load("assets/alien.png");
+	miniplanet_texture = App->textures->Load("assets/whitelight.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -98,6 +99,15 @@ bool ModuleSceneIntro::Start()
 
 	kickerSensor = App->physics->CreateRectangleSensor(439,205,10,100);
 	kickerSensor->listener = this;
+
+	miniPlanetSensor = App->physics->CreateCircle(196, 553, 11, b2_staticBody, 2.0f, true);
+	miniPlanetSensor->listener = this;
+
+	miniPlanetSensor2 = App->physics->CreateCircle(223, 516, 11, b2_staticBody, 2.0f, true);
+	miniPlanetSensor2->listener = this;
+
+	miniPlanetSensor3 = App->physics->CreateCircle(172, 593, 11, b2_staticBody, 2.0f, true);
+	miniPlanetSensor3->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -584,6 +594,27 @@ update_status ModuleSceneIntro::Update()
 	}
 	lightAlien = false;
 
+	if (lightMiniWhitePlanet == true)
+	{
+		App->renderer->Blit(miniplanet_texture, 185, 544, NULL);
+	}
+
+	lightMiniWhitePlanet = false;
+
+	if (lightMiniWhitePlanet2 == true)
+	{
+		App->renderer->Blit(miniplanet_texture, 214, 506, NULL);
+	}
+
+	lightMiniWhitePlanet2 = false;
+
+	if (lightMiniWhitePlanet3 == true)
+	{
+		App->renderer->Blit(miniplanet_texture, 161, 583, NULL);
+	}
+
+	lightMiniWhitePlanet3 = false;
+	
 	//Score
 	char score_text[10];
 	char bestScore_text[10];
@@ -661,12 +692,14 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(satelitefx);
 		lightSatellite = true;
 	}
+
 	if ((bodyA == alienSensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(alienfx);
 		lightAlien = true;
 	}
+
 	if ((bodyA == woodensensor)) {
 		App->player->getPoints = true;
 		App->audio->PlayFx(woodenin);
@@ -675,5 +708,15 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (bodyA == kickerSensor && closekicker == false)
 	{
 		closekicker = true;
+	}
+
+	if ((bodyA == miniPlanetSensor)) {
+		lightMiniWhitePlanet = true;
+	}
+	if ((bodyA == miniPlanetSensor2)) {
+		lightMiniWhitePlanet2 = true;
+	}
+	if ((bodyA == miniPlanetSensor3)) {
+		lightMiniWhitePlanet3 = true;
 	}
 }

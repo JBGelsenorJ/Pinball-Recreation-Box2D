@@ -29,8 +29,8 @@ public:
 	PhysBody* planet_5;
 	PhysBody* planet_6;
 	PhysBody* satelite;
-	PhysBody* alien;
 	PhysBody* woodensensor;
+
 	PhysBody* sensor;
 	PhysBody* planet_1_sensor;
 	PhysBody* planet_2_sensor;
@@ -38,19 +38,20 @@ public:
 	PhysBody* planet_4_sensor;
 	PhysBody* planet_5_sensor;
 	PhysBody* planet_6_sensor;
+	PhysBody* satelite_sensor;
+	PhysBody* alienSensor;
 	bool sensed;
 
 	SDL_Texture* circle;
 	SDL_Texture* box;
 	SDL_Texture* rick;
 	SDL_Texture* background;
-	SDL_Texture* leftFlipper;
-	SDL_Texture* rightFlipper;
-	SDL_Texture* upperFlipper;
 	SDL_Texture* planet_1_shine;
 	SDL_Texture* planet_2_shine;
 	SDL_Texture* planet_5_shine;
 	SDL_Texture* planet_6_shine;
+	SDL_Texture* satellite;
+	SDL_Texture* alien_texture;
 	
 
 	
@@ -71,6 +72,8 @@ public:
 	bool lightPlanet4;
 	bool lightPlanet5;
 	bool lightPlanet6;
+	bool lightSatellite;
+	bool lightAlien;
 
 	int font_score = -1;
 	

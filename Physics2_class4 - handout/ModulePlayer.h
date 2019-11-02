@@ -32,6 +32,9 @@ public:
 	SDL_Texture* ball_texture;
 	SDL_Texture* right_board;
 	SDL_Texture* right_block;
+	SDL_Texture* left_flipper;
+	SDL_Texture* right_flipper;
+	SDL_Texture* upper_flipper;
 
 	PhysBody* ball;
 	PhysBody* ballSensor;
@@ -50,6 +53,8 @@ public:
 	bool shoot;
 	bool restart;
 	bool getPoints;
+	bool getBonus;
+	bool extralife;
 
 	uint force_counter;
 	uint score;

@@ -24,12 +24,17 @@ bool ModulePlayer::Start()
 	ball_texture = App->textures->Load("assets/ball.png");
 	right_board = App->textures->Load("assets/right_board.png");
 	right_block = App->textures->Load("assets/right_block.png");
+	left_flipper = App->textures->Load("assets/left_flipper.png");
+	right_flipper = App->textures->Load("assets/right_flipper.png");
+	upper_flipper = App->textures->Load("assets/upper_flipper.png");
 
 	//bools
 	getPoints = false;
+	getBonus = true;
+	extralife = false;
 
 	//Creating ball
-	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.6f);
+	ball = App->physics->CreateCircle(480, 700, 11, b2_dynamicBody, 0.2f);
 	
 	ballSensor = App->physics->CreateRectangleSensor(472 + 10, 741 + 5, 25, 21);
 	ballSensor->listener = this;
@@ -141,6 +146,23 @@ update_status ModulePlayer::Update()
 		restart = false;
 	}
 
+	//Bonus
+	if(getBonus == true)
+	{
+		if (score >= 1000)
+		{
+			extralife = true;
+		}
+	}
+
+	if(extralife == true)
+	{
+		lives += 1;
+		getBonus = false;
+	}
+
+	extralife = false;
+
 	//Get Points
 	if (getPoints == true)
 	{
@@ -148,13 +170,39 @@ update_status ModulePlayer::Update()
 		getPoints = false;
 	}
 
-	//Blit everything
+	//All draw fuction
+
+	//Draw ball
 	int x, y;
 	ball->GetPosition(x, y);
 
 	App->renderer->Blit(ball_texture, x, y);
 	App->renderer->Blit(right_board, 313, 550, NULL);
 	App->renderer->Blit(right_block, 405, 212, NULL);
+	
+	//Draw flippers
+	if (lFlipper != NULL)
+	{
+		int x, y;
+		lFlipper->GetPosition(x, y);
+		App->renderer->Blit(left_flipper, x, y, NULL, 1.0f, lFlipper->GetRotation());
+	}
+
+	if (rFlipper != NULL)
+	{
+		int x, y;
+		rFlipper->GetPosition(x, y);
+		App->renderer->Blit(right_flipper, x, y, NULL, 1.0f, rFlipper->GetRotation());
+	}
+
+	if (uFlipper != NULL)
+	{
+		int x, y;
+		uFlipper->GetPosition(x, y);
+		App->renderer->Blit(upper_flipper, x, y, NULL, 1.0f, uFlipper->GetRotation());
+	}
+
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -177,6 +225,7 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 }
 
 void ModulePlayer::setLeftFlipper() {
+
 
 	lFlipper = App->physics->CreateRectangle(210, 778, 73, 14, b2_dynamicBody);
 	lFlipperPivot = App->physics->CreateCircle(182, 778, 5, b2_staticBody, 0.0f);
@@ -205,6 +254,7 @@ void ModulePlayer::setLeftFlipper() {
 }
 
 void ModulePlayer::setRightFlipper() {
+
 
 	rFlipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
 	rFlipperPivot = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.0f);

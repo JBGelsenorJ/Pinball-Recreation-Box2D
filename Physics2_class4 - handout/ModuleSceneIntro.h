@@ -52,6 +52,11 @@ public:
 	SDL_Texture* leftFlipper;
 	SDL_Texture* rightFlipper;
 	SDL_Texture* upperFlipper;
+	SDL_Texture* planet_1_shine;
+	SDL_Texture* planet_2_shine;
+	SDL_Texture* planet_5_shine;
+	SDL_Texture* planet_6_shine;
+	
 
 	
 	uint kickerfx;
@@ -63,7 +68,14 @@ public:
 	uint alienfx;
 
 	p2Point<int> ray;
+	
 	bool ray_on;
+	bool lightPlanet1;
+	bool lightPlanet2;
+	bool lightPlanet3;
+	bool lightPlanet4;
+	bool lightPlanet5;
+	bool lightPlanet6;
 
 	int font_score = -1;
 	

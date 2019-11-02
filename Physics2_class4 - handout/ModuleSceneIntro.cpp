@@ -42,8 +42,12 @@ bool ModuleSceneIntro::Start()
 	leftFlipper = App->textures->Load("assets/left_flipper.png");
 	rightFlipper = App->textures->Load("assets/right_flipper.png");
 	upperFlipper = App->textures->Load("assets/upper_flipper.png");
+	planet_1_shine = App->textures->Load("assets/planet1.png");
+	planet_2_shine = App->textures->Load("assets/planet2.png");
+	planet_5_shine = App->textures->Load("assets/planet5.png");
+	planet_6_shine = App->textures->Load("assets/planet6.png");
 
-
+	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
 	flipperfx = App->audio->LoadFx("assets/audio/flipper.wav");
 	startfx = App->audio->LoadFx("assets/audio/noisestart.wav");
@@ -61,32 +65,32 @@ bool ModuleSceneIntro::Start()
 	//scene elements
 	planet_1 = new PhysBody();
 	planet_1 = App->physics->CreateCircle(302, 297, 32, b2_staticBody, 0.8f);
-	planet_1_sensor = App->physics->CreateCircle(302, 297, 35, b2_staticBody, 2.0f, true);
+	planet_1_sensor = App->physics->CreateCircle(302, 297, 36, b2_staticBody, 2.0f, true);
 	planet_1_sensor->listener = this;
 
 	planet_2 = new PhysBody();
 	planet_2 = App->physics->CreateCircle(245, 373, 12, b2_staticBody, 0.8f);
-	planet_2_sensor = App->physics->CreateCircle(245, 373, 15, b2_staticBody, 2.0f, true);
+	planet_2_sensor = App->physics->CreateCircle(245, 373, 16, b2_staticBody, 2.0f, true);
 	planet_2_sensor->listener = this;
 
 	planet_3 = new PhysBody();
 	planet_3 = App->physics->CreateCircle(276, 435, 12, b2_staticBody, 0.8f);
-	planet_3_sensor = App->physics->CreateCircle(276, 435, 15, b2_staticBody, 2.0f, true);
+	planet_3_sensor = App->physics->CreateCircle(276, 435, 16, b2_staticBody, 2.0f, true);
 	planet_3_sensor->listener = this;
 
 	planet_4 = new PhysBody();
 	planet_4 = App->physics->CreateCircle(215, 465, 12, b2_staticBody, 0.8f);
-	planet_4_sensor = App->physics->CreateCircle(215, 465, 15, b2_staticBody, 2.0f, true);
+	planet_4_sensor = App->physics->CreateCircle(215, 465, 16, b2_staticBody, 2.0f, true);
 	planet_4_sensor->listener = this;
 
 	planet_5 = new PhysBody();
 	planet_5 = App->physics->CreateCircle(344, 516, 31, b2_staticBody, 0.8f);
-	planet_5_sensor = App->physics->CreateCircle(344, 516, 34, b2_staticBody, 2.0f, true);
+	planet_5_sensor = App->physics->CreateCircle(344, 516, 35, b2_staticBody, 2.0f, true);
 	planet_5_sensor->listener = this;
 
 	planet_6 = new PhysBody();
 	planet_6 = App->physics->CreateCircle(93, 624, 33, b2_staticBody, 0.8f);
-	planet_6_sensor = App->physics->CreateCircle(93, 624, 36, b2_staticBody, 2.0f, true);
+	planet_6_sensor = App->physics->CreateCircle(93, 624, 37, b2_staticBody, 2.0f, true);
 	planet_6_sensor->listener = this;
 
 	int top_block[72] = {
@@ -432,6 +436,7 @@ bool ModuleSceneIntro::Start()
 	167, 368,
 	174, 364
 	};
+
 	App->physics->CreateChain(0, 0, satelitec, 38, b2_staticBody, 0.5f, false);
 	satelite = App->physics->CreateChain(0, 0, satelitec, 38, b2_staticBody, 0.0f, true);
 	satelite->listener = this;
@@ -451,10 +456,10 @@ bool ModuleSceneIntro::Start()
 	88, 318,
 	92, 324
 	};
+	
 	App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.5f, false);
-	alien = App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.0f, true);
+	alien = App->physics->CreateChain(0, 0, alienc, 26, b2_staticBody, 0.9f, true);
 	alien->listener = this;
-
 
 	rflipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
 	lflipper = App->physics->CreateRectangle(210, 776, 69, 14, b2_dynamicBody);
@@ -588,9 +593,51 @@ update_status ModuleSceneIntro::Update()
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
 
-	
+	//Light all planets
+	if (lightPlanet1 == true)
+	{
+		App->renderer->Blit(planet_1_shine, 267, 263, NULL);
+	}
 
+	lightPlanet1 = false;
+
+	if (lightPlanet2 == true)
+	{
+		App->renderer->Blit(planet_2_shine, 230, 358, NULL);
+	}
+
+	lightPlanet2 = false;
+
+	if (lightPlanet3 == true)
+	{
+		App->renderer->Blit(planet_2_shine, 262, 421, NULL);
+	}
+
+	lightPlanet3 = false;
+
+	if (lightPlanet4 == true)
+	{
+		App->renderer->Blit(planet_2_shine, 199, 451, NULL);
+	}
+
+	lightPlanet4 = false;
+
+	if (lightPlanet5 == true)
+	{
+		App->renderer->Blit(planet_5_shine, 307, 480, NULL);
+	}
 	
+	lightPlanet5 = false;
+
+	if (lightPlanet6 == true)
+	{
+		App->renderer->Blit(planet_6_shine, 57, 589, NULL);
+	}
+
+	lightPlanet6 = false;
+
+
+
 	//Score
 	char score_text[10];
 	char bestScore_text[10];
@@ -602,7 +649,7 @@ update_status ModuleSceneIntro::Update()
 	
 	App->fonts->BlitText(250, 43, font_score, score_text);
 	App->fonts->BlitText(250, 20, font_score, bestScore_text);
-	App->fonts->BlitText(450, 43, font_score, recentScore_text);
+	App->fonts->BlitText(420, 43, font_score, recentScore_text);
 
 
 	return UPDATE_CONTINUE;
@@ -610,10 +657,41 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	if (App->player->getPoints == false && (bodyA == planet_1_sensor || bodyA == planet_2_sensor || bodyA == planet_3_sensor || bodyA == planet_4_sensor || bodyA == planet_5_sensor || bodyA == planet_6_sensor))
+	if (App->player->getPoints == false && (bodyA == planet_1_sensor))
 	{
 		App->player->getPoints = true;
 		App->audio->PlayFx(dingfx);
+		lightPlanet1 = true;
+	}
+	if (App->player->getPoints == false && (bodyA == planet_2_sensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(dingfx);
+		lightPlanet2 = true;
+	}
+	if (App->player->getPoints == false && (bodyA == planet_3_sensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(dingfx);
+		lightPlanet3 = true;
+	}
+	if (App->player->getPoints == false && (bodyA == planet_4_sensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(dingfx);
+		lightPlanet4 = true;
+	}
+	if (App->player->getPoints == false && (bodyA == planet_5_sensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(dingfx);
+		lightPlanet5 = true;
+	}
+	if (App->player->getPoints == false && (bodyA == planet_6_sensor))
+	{
+		App->player->getPoints = true;
+		App->audio->PlayFx(dingfx);
+		lightPlanet6 = true;
 	}
 	if ((bodyA == satelite))
 	{

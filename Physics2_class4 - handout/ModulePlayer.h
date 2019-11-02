@@ -25,7 +25,7 @@ public:
 private:
 	void setLeftFlipper();
 	void setRightFlipper();
-	//void setMiniFlipper();
+	void setUpFlipper();
 
 public:
 	
@@ -42,9 +42,12 @@ public:
 	PhysBody* lFlipperPivot;
 	PhysBody* rFlipper;
 	PhysBody* rFlipperPivot;
+	PhysBody* uFlipper;
+	PhysBody* uFlipperPivot;
 
 	b2RevoluteJoint* lFlipperJoint;
 	b2RevoluteJoint* rFlipperJoint;
+	b2RevoluteJoint* uFlipperJoint;
 
 	bool shoot;
 	bool restart;

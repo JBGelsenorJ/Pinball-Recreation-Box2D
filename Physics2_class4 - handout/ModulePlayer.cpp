@@ -26,7 +26,8 @@ bool ModulePlayer::Start()
 	right_block = App->textures->Load("assets/right_block.png");
 	left_flipper = App->textures->Load("assets/left_flipper.png");
 	right_flipper = App->textures->Load("assets/right_flipper.png");
-	
+	upper_flipper = App->textures->Load("assets/upper_flipper.png");
+
 	//bools
 	getPoints = false;
 
@@ -50,7 +51,7 @@ bool ModulePlayer::Start()
 	//Setting Flippers
 	setLeftFlipper();
 	setRightFlipper();
-
+	setUpFlipper();
 	return true;
 }
 
@@ -97,7 +98,7 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		rFlipper->body->ApplyAngularImpulse(2.0f, true);
-		//App->scene_intro->uflipper->body->ApplyAngularImpulse(2.0f, true);
+		uFlipper->body->ApplyAngularImpulse(2.0f, true);
 		
 	}
 
@@ -175,6 +176,13 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(right_flipper, x, y, NULL, 1.0f, rFlipper->GetRotation());
 	}
 
+	if (uFlipper != NULL)
+	{
+		int x, y;
+		uFlipper->GetPosition(x, y);
+		App->renderer->Blit(upper_flipper, x, y, NULL, 1.0f, uFlipper->GetRotation());
+	}
+
 	
 
 
@@ -200,8 +208,9 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 void ModulePlayer::setLeftFlipper() {
 
-	lFlipper = App->physics->CreateRectangle(185, 782, 72, 18, b2_dynamicBody);
-	lFlipperPivot = App->physics->CreateCircle(185, 782, 4, b2_staticBody, 0.0f);
+
+	lFlipper = App->physics->CreateRectangle(210, 778, 73, 14, b2_dynamicBody);
+	lFlipperPivot = App->physics->CreateCircle(182, 778, 5, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
 
@@ -228,8 +237,9 @@ void ModulePlayer::setLeftFlipper() {
 
 void ModulePlayer::setRightFlipper() {
 
-	rFlipper = App->physics->CreateRectangle(330, 782, 72, 18, b2_dynamicBody);
-	rFlipperPivot = App->physics->CreateCircle(330, 782, 4, b2_staticBody, 0.0f);
+
+	rFlipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
+	rFlipperPivot = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
 
@@ -255,5 +265,34 @@ void ModulePlayer::setRightFlipper() {
 }
 
 
+void ModulePlayer::setUpFlipper() {
 
+
+	uFlipper = App->physics->CreateRectangle(420, 324, 50, 14, b2_dynamicBody);
+	uFlipperPivot = App->physics->CreateCircle(425, 326, 5, b2_staticBody, 0.5f);
+
+	b2RevoluteJointDef revoluteJointDef;
+
+	revoluteJointDef.bodyA = uFlipper->body;
+	revoluteJointDef.bodyB = uFlipperPivot->body;
+
+	uFlipper->body->SetGravityScale(10.0f);
+
+
+	revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(30), 0);
+	revoluteJointDef.localAnchorB.Set(0, 0);
+	revoluteJointDef.collideConnected = false;
+
+	revoluteJointDef.enableLimit = true;
+	revoluteJointDef.upperAngle = 35 * DEGTORAD;
+	revoluteJointDef.lowerAngle = -30 * DEGTORAD;
+
+	revoluteJointDef.motorSpeed = -2000.0f * DEGTORAD;
+	revoluteJointDef.maxMotorTorque = 1500.0f;
+	revoluteJointDef.enableMotor = false;
+
+	uFlipperJoint = (b2RevoluteJoint*)App->physics->world->CreateJoint(&revoluteJointDef);
+
+
+}
 

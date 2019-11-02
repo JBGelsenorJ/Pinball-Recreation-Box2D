@@ -29,6 +29,7 @@ public:
 	PhysBody* planet_5;
 	PhysBody* planet_6;
 	PhysBody* satelite;
+
 	PhysBody* sensor;
 	PhysBody* planet_1_sensor;
 	PhysBody* planet_2_sensor;

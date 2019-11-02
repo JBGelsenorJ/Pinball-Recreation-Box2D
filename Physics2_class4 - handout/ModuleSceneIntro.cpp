@@ -50,8 +50,9 @@ bool ModuleSceneIntro::Start()
 	dingfx = App->audio->LoadFx("assets/audio/ding.wav");
 	satelitefx = App->audio->LoadFx("assets/audio/satelite.wav");
 	alienfx = App->audio->LoadFx("assets/audio/alien.wav");
-	woodenin = App->audio->LoadFx("assets/audio/boost.wav");
-	woodenout = App->audio->LoadFx("assets/audio/lasershot.wav");
+	woodeninfx = App->audio->LoadFx("assets/audio/boost.wav");
+	woodenoutfx = App->audio->LoadFx("assets/audio/lasershot.wav");
+	miniplanetfx = App->audio->LoadFx("assets/audio/dum.wav");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -585,7 +586,7 @@ update_status ModuleSceneIntro::Update()
 		App->player->ball->body->SetLinearVelocity({ 0,0 });
 		if (cont > 1000)
 		{
-			App->audio->PlayFx(woodenout);
+			App->audio->PlayFx(woodenoutfx);
 			woodentransport = false;
 			App->player->ball->body->SetTransform({ PIXEL_TO_METERS(399 + 0.2f), PIXEL_TO_METERS(130) }, 0.0f);
 			App->player->ball->body->SetLinearVelocity({ 0,40 });
@@ -647,45 +648,42 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if (App->player->getPoints == false && (bodyA == planet_1_sensor))
 	{
 		App->player->getPoints = true;
-		App->audio->PlayFx(dingfx);
 		lightPlanet1 = true;
 	}
 
 	if (App->player->getPoints == false && (bodyA == planet_2_sensor))
 	{
 		App->player->getPoints = true;
-		App->audio->PlayFx(dingfx);
 		lightPlanet2 = true;
 	}
 
 	if (App->player->getPoints == false && (bodyA == planet_3_sensor))
 	{
 		App->player->getPoints = true;
-		App->audio->PlayFx(dingfx);
 		lightPlanet3 = true;
 	}
 
 	if (App->player->getPoints == false && (bodyA == planet_4_sensor))
 	{
 		App->player->getPoints = true;
-		App->audio->PlayFx(dingfx);
 		lightPlanet4 = true;
 	}
 
 	if (App->player->getPoints == false && (bodyA == planet_5_sensor))
 	{
 		App->player->getPoints = true;
-		App->audio->PlayFx(dingfx);
 		lightPlanet5 = true;
 	}
 
 	if (App->player->getPoints == false && (bodyA == planet_6_sensor))
 	{
 		App->player->getPoints = true;
-		App->audio->PlayFx(dingfx);
+
 		lightPlanet6 = true;
 	}
-
+	if ((bodyA == planet_1_sensor) || (bodyA == planet_2_sensor) || (bodyA == planet_3_sensor) || (bodyA == planet_4_sensor) || (bodyA == planet_5_sensor) || (bodyA == planet_6_sensor)) {
+		App->audio->PlayFx(dingfx);
+	}
 	if (App->player->getPoints == false && (bodyA == satelite_sensor))
 	{
 		App->player->getPoints = true;
@@ -702,7 +700,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if ((bodyA == woodensensor)) {
 		App->player->getPoints = true;
-		App->audio->PlayFx(woodenin);
+		App->audio->PlayFx(woodeninfx);
 		woodentransport = true;
 	}
 	if (bodyA == kickerSensor && closekicker == false)
@@ -718,5 +716,8 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	}
 	if ((bodyA == miniPlanetSensor3)) {
 		lightMiniWhitePlanet3 = true;
+	}
+	if ((bodyA == miniPlanetSensor) || (bodyA == miniPlanetSensor2) || (bodyA == miniPlanetSensor3)) {
+		App->audio->PlayFx(miniplanetfx);
 	}
 }

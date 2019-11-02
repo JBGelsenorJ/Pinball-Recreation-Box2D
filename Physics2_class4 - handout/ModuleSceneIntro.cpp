@@ -32,7 +32,7 @@ bool ModuleSceneIntro::Start()
 	circle = App->textures->Load("pinball/wheel.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
-	background = App->textures->Load("assets/pinball_board_empty.png");
+	background = App->textures->Load("assets/pinball_board_definitivo.png");
 	planet_1_shine = App->textures->Load("assets/planet1.png");
 	planet_2_shine = App->textures->Load("assets/planet2.png");
 	planet_5_shine = App->textures->Load("assets/planet5.png");
@@ -41,6 +41,9 @@ bool ModuleSceneIntro::Start()
 	alien_texture = App->textures->Load("assets/alien.png");
 	miniplanet_texture = App->textures->Load("assets/whitelight.png");
 	red_planet_texture = App->textures->Load("assets/redlight.png");
+	green_light_texture1 = App->textures->Load("assets/greenbiglight1.png");
+	//green_light_texture2 = App->textures->Load("assets/greenbiglight1.png");
+	//green_light_texture3 = App->textures->Load("assets/greenbiglight1.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -118,6 +121,9 @@ bool ModuleSceneIntro::Start()
 	redPlanetSensor2->listener = this;
 
 	redPlanetSensor3 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
+	redPlanetSensor3->listener = this;
+
+	greenBigLight1 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
 	redPlanetSensor3->listener = this;
 
 	int top_block[72] = {
@@ -647,6 +653,12 @@ update_status ModuleSceneIntro::Update()
 
 	lightRedPlanet3 = false;
 
+	if (lightRedPlanet3 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
+	}
+
+	lightRedPlanet3 = false;
 	
 	//Score
 	char score_text[10];
@@ -713,9 +725,11 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		lightPlanet6 = true;
 	}
+
 	if ((bodyA == planet_1_sensor) || (bodyA == planet_2_sensor) || (bodyA == planet_3_sensor) || (bodyA == planet_4_sensor) || (bodyA == planet_5_sensor) || (bodyA == planet_6_sensor)) {
 		App->audio->PlayFx(dingfx);
 	}
+
 	if (App->player->getPoints == false && (bodyA == satelite_sensor))
 	{
 		App->player->getPoints = true;
@@ -766,6 +780,10 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	}
 
 	if ((bodyA == miniPlanetSensor) || (bodyA == miniPlanetSensor2) || (bodyA == miniPlanetSensor3)) {
+		App->audio->PlayFx(miniplanetfx);
+	}
+
+	if ((bodyA == miniPlanetSensor)) {
 		App->audio->PlayFx(miniplanetfx);
 	}
 }

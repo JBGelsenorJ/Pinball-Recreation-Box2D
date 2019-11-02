@@ -49,6 +49,9 @@ public:
 	PhysBody* redPlanetSensor1;
 	PhysBody* redPlanetSensor2;
 	PhysBody* redPlanetSensor3;
+	PhysBody* greenBigLight1;
+	PhysBody* greenBigLight2;
+	PhysBody* greenBigLight3;
 
 	bool sensed;
 
@@ -64,8 +67,7 @@ public:
 	SDL_Texture* alien_texture;
 	SDL_Texture* miniplanet_texture;
 	SDL_Texture* red_planet_texture;
-	
-
+	SDL_Texture* green_light_texture1;
 	
 	uint kickerfx;
 	uint flipperfx;

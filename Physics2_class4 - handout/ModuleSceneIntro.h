@@ -16,6 +16,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+	void MapChecker();
+	void CreateElements();
 
 public:
 	p2List<PhysBody*> circles;

@@ -74,8 +74,9 @@ public:
 	uint dingfx;
 	uint satelitefx;
 	uint alienfx;
-	uint woodenin;
-	uint woodenout;
+	uint woodeninfx;
+	uint woodenoutfx;
+	uint miniplanetfx;
 
 	p2Point<int> ray;
 	

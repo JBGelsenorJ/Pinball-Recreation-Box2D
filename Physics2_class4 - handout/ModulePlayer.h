@@ -36,15 +36,15 @@ public:
 	SDL_Texture* right_flipper;
 	SDL_Texture* upper_flipper;
 
-	PhysBody* ball;
-	PhysBody* ballSensor;
-	PhysBody* Restart;
-	PhysBody* lFlipper;
-	PhysBody* lFlipperPivot;
-	PhysBody* rFlipper;
-	PhysBody* rFlipperPivot;
-	PhysBody* uFlipper;
-	PhysBody* uFlipperPivot;
+	PhysBody* ball = nullptr;;
+	PhysBody* ballSensor = nullptr;;
+	PhysBody* Restart = nullptr;;
+	PhysBody* lFlipper = nullptr;;
+	PhysBody* lFlipperPivot = nullptr;;
+	PhysBody* rFlipper = nullptr;;
+	PhysBody* rFlipperPivot = nullptr;;
+	PhysBody* uFlipper = nullptr;;
+	PhysBody* uFlipperPivot = nullptr;;
 
 	b2RevoluteJoint* lFlipperJoint;
 	b2RevoluteJoint* rFlipperJoint;
@@ -56,9 +56,9 @@ public:
 	bool getBonus;
 	bool extralife;
 
-	uint force_counter;
-	uint score;
-	uint lives;
-	uint recentScore;
-	uint bestScore;
+	uint force_counter = 0;
+	uint score = 0;
+	uint lives = 0;
+	uint recentScore = 0;
+	uint bestScore = 0;
 };

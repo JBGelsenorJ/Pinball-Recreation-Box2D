@@ -40,6 +40,9 @@ public:
 	PhysBody* planet_6_sensor;
 	PhysBody* satelite_sensor;
 	PhysBody* alienSensor;
+	PhysBody* miniPlanetSensor;
+	PhysBody* miniPlanetSensor2;
+	PhysBody* miniPlanetSensor3;
 	bool sensed;
 
 	SDL_Texture* circle;
@@ -52,6 +55,7 @@ public:
 	SDL_Texture* planet_6_shine;
 	SDL_Texture* satellite;
 	SDL_Texture* alien_texture;
+	SDL_Texture* miniplanet_texture;
 	
 
 	
@@ -74,6 +78,9 @@ public:
 	bool lightPlanet6;
 	bool lightSatellite;
 	bool lightAlien;
+	bool lightMiniWhitePlanet;
+	bool lightMiniWhitePlanet2;
+	bool lightMiniWhitePlanet3;
 
 	int font_score = -1;
 	

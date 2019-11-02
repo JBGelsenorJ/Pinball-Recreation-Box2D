@@ -22,35 +22,46 @@ public:
 	p2List<PhysBody*> boxes;
 	p2List<PhysBody*> ricks;
 
-	PhysBody* planet_1;
-	PhysBody* planet_2;
-	PhysBody* planet_3;
-	PhysBody* planet_4;
-	PhysBody* planet_5;
-	PhysBody* planet_6;
-	PhysBody* satelite;
+	PhysBody* planet_1 = nullptr;
+	PhysBody* planet_2 = nullptr;
+	PhysBody* planet_3 = nullptr;
+	PhysBody* planet_4 = nullptr;
+	PhysBody* planet_5 = nullptr;
+	PhysBody* planet_6 = nullptr;
+	PhysBody* satelite = nullptr;
 	PhysBody* kickercloser = nullptr;
 
-	PhysBody* kickercloser_sensor;
-	PhysBody* woodensensor;
-	PhysBody* sensor;
-	PhysBody* planet_1_sensor;
-	PhysBody* planet_2_sensor;
-	PhysBody* planet_3_sensor;
-	PhysBody* planet_4_sensor;
-	PhysBody* planet_5_sensor;
-	PhysBody* planet_6_sensor;
-	PhysBody* satelite_sensor;
-	PhysBody* alienSensor;
-	PhysBody* kickerSensor;
-	PhysBody* miniPlanetSensor;
-	PhysBody* miniPlanetSensor2;
-	PhysBody* miniPlanetSensor3;
-	PhysBody* redPlanetSensor1;
-	PhysBody* redPlanetSensor2;
-	PhysBody* redPlanetSensor3;
+	PhysBody* kickercloser_sensor = nullptr;
+	PhysBody* woodensensor = nullptr;
+	PhysBody* sensor = nullptr;
+	PhysBody* planet_1_sensor = nullptr;
+	PhysBody* planet_2_sensor = nullptr;
+	PhysBody* planet_3_sensor = nullptr;
+	PhysBody* planet_4_sensor = nullptr;
+	PhysBody* planet_5_sensor = nullptr;
+	PhysBody* planet_6_sensor = nullptr;
+	PhysBody* satelite_sensor = nullptr;
+	PhysBody* alienSensor = nullptr;
+	PhysBody* kickerSensor = nullptr;
+	PhysBody* miniPlanetSensor = nullptr;
+	PhysBody* miniPlanetSensor2 = nullptr;
+	PhysBody* miniPlanetSensor3 = nullptr;
+	PhysBody* redPlanetSensor1 = nullptr;
+	PhysBody* redPlanetSensor2 = nullptr;
+	PhysBody* redPlanetSensor3 = nullptr;
+	PhysBody* greendot = nullptr;
+	PhysBody* greendot2 = nullptr;
+	PhysBody* greendot3 = nullptr;
+	PhysBody* greendot4 = nullptr;
+	PhysBody* greendot5 = nullptr;
+	PhysBody* greendot6 = nullptr;
+	PhysBody* greendot7 = nullptr;
+	PhysBody* greendot8 = nullptr;
+	PhysBody* greendot9 = nullptr;
+	PhysBody* greendot10 = nullptr;
+	PhysBody* greendot11 = nullptr;
 
-	bool sensed;
+	bool sensed = false;
 
 	SDL_Texture* circle;
 	SDL_Texture* box;
@@ -64,19 +75,20 @@ public:
 	SDL_Texture* alien_texture;
 	SDL_Texture* miniplanet_texture;
 	SDL_Texture* red_planet_texture;
+	SDL_Texture* green_dot_texture;
 	
 
 	
-	uint kickerfx;
-	uint flipperfx;
-	uint startfx;
-	uint ringfx;
-	uint dingfx;
-	uint satelitefx;
-	uint alienfx;
-	uint woodeninfx;
-	uint woodenoutfx;
-	uint miniplanetfx;
+	uint kickerfx = 0;
+	uint flipperfx = 0;
+	uint startfx = 0;
+	uint ringfx = 0;
+	uint dingfx = 0;
+	uint satelitefx = 0;
+	uint alienfx = 0;
+	uint woodeninfx = 0;
+	uint woodenoutfx = 0;
+	uint miniplanetfx = 0;
 
 	p2Point<int> ray;
 	
@@ -90,13 +102,24 @@ public:
 	bool lightSatellite;
 	bool lightAlien;
 	bool closekicker;
-	bool woodentransport = false;
+	bool woodentransport;
 	bool lightMiniWhitePlanet;
 	bool lightMiniWhitePlanet2;
 	bool lightMiniWhitePlanet3;
 	bool lightRedPlanet1;
 	bool lightRedPlanet2;
 	bool lightRedPlanet3;
+	bool lightgreendot;
+	bool lightgreendot2;
+	bool lightgreendot3;
+	bool lightgreendot4;
+	bool lightgreendot5;
+	bool lightgreendot6;
+	bool lightgreendot7;
+	bool lightgreendot8;
+	bool lightgreendot9;
+	bool lightgreendot10;
+	bool lightgreendot11;
 
 	int font_score = -1;
 	uint move = 0;

@@ -41,6 +41,7 @@ bool ModuleSceneIntro::Start()
 	alien_texture = App->textures->Load("assets/alien.png");
 	miniplanet_texture = App->textures->Load("assets/whitelight.png");
 	red_planet_texture = App->textures->Load("assets/redlight.png");
+	green_dot_texture = App->textures->Load("assets/greendot.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -119,6 +120,39 @@ bool ModuleSceneIntro::Start()
 
 	redPlanetSensor3 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
 	redPlanetSensor3->listener = this;
+	// Little green dots
+	greendot  = App->physics->CreateCircle(425, 136, 2, b2_staticBody, 2.0f, true);
+	greendot->listener = this;
+
+	greendot2 = App->physics->CreateCircle(387, 121, 2, b2_staticBody, 2.0f, true);
+	greendot2->listener = this;
+
+	greendot3 = App->physics->CreateCircle(350, 113, 2, b2_staticBody, 2.0f, true);
+	greendot3->listener = this;
+
+	greendot4 = App->physics->CreateCircle(305, 114, 2, b2_staticBody, 2.0f, true);
+	greendot4->listener = this;
+
+	greendot5 = App->physics->CreateCircle(261, 123, 2, b2_staticBody, 2.0f, true);
+	greendot5->listener = this;
+
+	greendot6 = App->physics->CreateCircle(218, 137, 2, b2_staticBody, 2.0f, true);
+	greendot6->listener = this;
+
+	greendot7 = App->physics->CreateCircle(182, 155, 2, b2_staticBody, 2.0f, true);
+	greendot7->listener = this;
+
+	greendot8 = App->physics->CreateCircle(152, 179, 2, b2_staticBody, 2.0f, true);
+	greendot8->listener = this;
+
+	greendot9 = App->physics->CreateCircle(127, 208, 2, b2_staticBody, 2.0f, true);
+	greendot9->listener = this;
+
+	greendot10 = App->physics->CreateCircle(104, 237, 2, b2_staticBody, 2.0f, true);
+	greendot10->listener = this;
+
+	greendot11 = App->physics->CreateCircle(85, 267, 2, b2_staticBody, 2.0f, true);
+	greendot11->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -603,6 +637,7 @@ update_status ModuleSceneIntro::Update()
 			cont = 0;
 		}
 	}
+
 	lightAlien = false;
 
 	if (lightMiniWhitePlanet == true)
@@ -647,6 +682,10 @@ update_status ModuleSceneIntro::Update()
 
 	lightRedPlanet3 = false;
 
+	if (lightgreendot == true)
+	{
+		App->renderer->Blit(green_dot_texture, 425,136, NULL);
+	}
 	
 	//Score
 	char score_text[10];
@@ -767,5 +806,50 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if ((bodyA == miniPlanetSensor) || (bodyA == miniPlanetSensor2) || (bodyA == miniPlanetSensor3)) {
 		App->audio->PlayFx(miniplanetfx);
+	}
+	
+	if ((bodyA == greendot))
+	{
+		lightgreendot = true;
+	}
+	if ((bodyA == greendot2))
+	{
+		lightgreendot2 = true;
+	}
+	if ((bodyA == greendot3))
+	{
+		lightgreendot3 = true;
+	}
+	if ((bodyA == greendot4))
+	{
+		lightgreendot4 = true;
+	}
+	if ((bodyA == greendot5))
+	{
+		lightgreendot5 = true;
+	}
+	if ((bodyA == greendot6))
+	{
+		lightgreendot6 = true;
+	}
+	if ((bodyA == greendot7))
+	{
+		lightgreendot7 = true;
+	}
+	if ((bodyA == greendot8))
+	{
+		lightgreendot8 = true;
+	}
+	if ((bodyA == greendot9))
+	{
+		lightgreendot9 = true;
+	}
+	if ((bodyA == greendot10))
+	{
+		lightgreendot10 = true;
+	}
+	if ((bodyA == greendot11))
+	{
+		lightgreendot11 = true;
 	}
 }

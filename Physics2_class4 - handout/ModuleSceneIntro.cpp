@@ -40,6 +40,7 @@ bool ModuleSceneIntro::Start()
 	satellite = App->textures->Load("assets/satellite.png");
 	alien_texture = App->textures->Load("assets/alien.png");
 	miniplanet_texture = App->textures->Load("assets/whitelight.png");
+	red_planet_texture = App->textures->Load("assets/redlight.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -103,6 +104,15 @@ bool ModuleSceneIntro::Start()
 
 	miniPlanetSensor3 = App->physics->CreateCircle(172, 593, 11, b2_staticBody, 2.0f, true);
 	miniPlanetSensor3->listener = this;
+
+	redPlanetSensor1 = App->physics->CreateCircle(298, 565, 11, b2_staticBody, 2.0f, true);
+	redPlanetSensor1->listener = this;
+
+	redPlanetSensor2 = App->physics->CreateCircle(334, 602, 11, b2_staticBody, 2.0f, true);
+	redPlanetSensor2->listener = this;
+
+	redPlanetSensor3 = App->physics->CreateCircle(367, 645, 11, b2_staticBody, 2.0f, true);
+	redPlanetSensor3->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -590,6 +600,28 @@ update_status ModuleSceneIntro::Update()
 	}
 
 	lightMiniWhitePlanet3 = false;
+
+	if (lightRedPlanet1 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 289, 554, NULL);
+	}
+
+	lightRedPlanet1 = false;
+
+	if (lightRedPlanet2 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 325, 592, NULL);
+	}
+
+	lightRedPlanet2 = false;
+
+	if (lightRedPlanet3 == true)
+	{
+		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
+	}
+
+	lightRedPlanet3 = false;
+
 	
 	//Score
 	char score_text[10];
@@ -690,5 +722,14 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	}
 	if ((bodyA == miniPlanetSensor3)) {
 		lightMiniWhitePlanet3 = true;
+	}
+	if ((bodyA == redPlanetSensor1)) {
+		lightRedPlanet1 = true;
+	}
+	if ((bodyA == redPlanetSensor2)) {
+		lightRedPlanet2 = true;
+	}
+	if ((bodyA == redPlanetSensor3)) {
+		lightRedPlanet3 = true;
 	}
 }

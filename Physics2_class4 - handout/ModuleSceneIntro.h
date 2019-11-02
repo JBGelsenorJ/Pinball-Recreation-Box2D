@@ -29,8 +29,10 @@ public:
 	PhysBody* planet_5;
 	PhysBody* planet_6;
 	PhysBody* satelite;
-	PhysBody* woodensensor;
+	PhysBody* kickercloser = nullptr;
 
+	PhysBody* kickercloser_sensor;
+	PhysBody* woodensensor;
 	PhysBody* sensor;
 	PhysBody* planet_1_sensor;
 	PhysBody* planet_2_sensor;
@@ -40,12 +42,14 @@ public:
 	PhysBody* planet_6_sensor;
 	PhysBody* satelite_sensor;
 	PhysBody* alienSensor;
+	PhysBody* kickerSensor;
 	PhysBody* miniPlanetSensor;
 	PhysBody* miniPlanetSensor2;
 	PhysBody* miniPlanetSensor3;
 	PhysBody* redPlanetSensor1;
 	PhysBody* redPlanetSensor2;
 	PhysBody* redPlanetSensor3;
+
 	bool sensed;
 
 	SDL_Texture* circle;
@@ -70,6 +74,8 @@ public:
 	uint dingfx;
 	uint satelitefx;
 	uint alienfx;
+	uint woodenin;
+	uint woodenout;
 
 	p2Point<int> ray;
 	
@@ -82,6 +88,8 @@ public:
 	bool lightPlanet6;
 	bool lightSatellite;
 	bool lightAlien;
+	bool closekicker;
+	bool woodentransport = false;
 	bool lightMiniWhitePlanet;
 	bool lightMiniWhitePlanet2;
 	bool lightMiniWhitePlanet3;
@@ -90,7 +98,7 @@ public:
 	bool lightRedPlanet3;
 
 	int font_score = -1;
-	
-	
+	uint move = 0;
+	uint cont = 0;
 
 };

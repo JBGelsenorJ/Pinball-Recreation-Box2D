@@ -51,6 +51,8 @@ bool ModuleSceneIntro::Start()
 	dingfx = App->audio->LoadFx("assets/audio/ding.wav");
 	satelitefx = App->audio->LoadFx("assets/audio/satelite.wav");
 	alienfx = App->audio->LoadFx("assets/audio/alien.wav");
+	woodenin = App->audio->LoadFx("assets/audio/boost.wav");
+	woodenout = App->audio->LoadFx("assets/audio/lasershot.wav");
 
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -95,6 +97,9 @@ bool ModuleSceneIntro::Start()
 
 	alienSensor = App->physics->CreateCircle(96, 305, 14, b2_staticBody, 2.0f, true);
 	alienSensor->listener = this;
+
+	kickerSensor = App->physics->CreateRectangleSensor(439,205,10,100);
+	kickerSensor->listener = this;
 
 	miniPlanetSensor = App->physics->CreateCircle(196, 553, 11, b2_staticBody, 2.0f, true);
 	miniPlanetSensor->listener = this;
@@ -577,7 +582,26 @@ update_status ModuleSceneIntro::Update()
 	{
 		App->renderer->Blit(alien_texture, 83, 292, NULL);
 	}
-
+	
+	if (closekicker == true)
+	{
+		closekicker = false;
+		/*kickercloser = App->physics->CreateRectangle(449, 205, 10, 100,b2_dynamicBody);*/
+	}
+	if (woodentransport)
+	{
+		cont+=10;
+		App->player->ball->body->SetTransform({ PIXEL_TO_METERS(1000 + 0.2f), PIXEL_TO_METERS(1000) }, 0.0f);
+		App->player->ball->body->SetLinearVelocity({ 0,0 });
+		if (cont > 1000)
+		{
+			App->audio->PlayFx(woodenout);
+			woodentransport = false;
+			App->player->ball->body->SetTransform({ PIXEL_TO_METERS(399 + 0.2f), PIXEL_TO_METERS(130) }, 0.0f);
+			App->player->ball->body->SetLinearVelocity({ 0,40 });
+			cont = 0;
+		}
+	}
 	lightAlien = false;
 
 	if (lightMiniWhitePlanet == true)
@@ -710,8 +734,12 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if ((bodyA == woodensensor)) {
 		App->player->getPoints = true;
-		/*App->audio->PlayFx(alienfx);*/
-		/*this.body.position->Set(10, 20);*/
+		App->audio->PlayFx(woodenin);
+		woodentransport = true;
+	}
+	if (bodyA == kickerSensor && closekicker == false)
+	{
+		closekicker = true;
 	}
 
 	if ((bodyA == miniPlanetSensor)) {

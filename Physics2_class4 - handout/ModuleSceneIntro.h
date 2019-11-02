@@ -30,12 +30,6 @@ public:
 	PhysBody* planet_6;
 	PhysBody* satelite;
 	PhysBody* alien;
-	PhysBody* lflipper;
-	PhysBody* rflipper;
-	PhysBody* uflipper;
-	PhysBody* u_flipper_joint;
-	PhysBody* l_flipper_joint;
-	PhysBody* r_flipper_joint;
 	PhysBody* sensor;
 	PhysBody* planet_1_sensor;
 	PhysBody* planet_2_sensor;

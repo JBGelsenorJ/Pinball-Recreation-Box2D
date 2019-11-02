@@ -527,25 +527,25 @@ update_status ModuleSceneIntro::Update()
 		c = c->next;
 	}
 
-	if (lflipper != NULL)
+	if (App->player->lFlipper != NULL)
 	{
 		int x, y;
-		lflipper->GetPosition(x, y);
-		App->renderer->Blit(leftFlipper, x, y, NULL, 1.0f, lflipper->GetRotation());
+		App->player->lFlipper->GetPosition(x, y);
+		App->renderer->Blit(leftFlipper, x, y, NULL, 1.0f, App->player->lFlipper->GetRotation());
 	}
 
-	if (rflipper != NULL)
+	if (App->player->rFlipper != NULL)
 	{
 		int x, y;
-		rflipper->GetPosition(x, y);
-		App->renderer->Blit(rightFlipper, x, y, NULL, 1.0f, rflipper->GetRotation());
+		App->player->rFlipper->GetPosition(x, y);
+		App->renderer->Blit(rightFlipper, x, y, NULL, 1.0f, App->player->rFlipper->GetRotation());
 	}
 
-	if (uflipper != NULL)
+	if (App->player->uFlipper != NULL)
 	{
 		int x, y;
-		uflipper->GetPosition(x, y);
-		App->renderer->Blit(upperFlipper, x, y, NULL, 1.0f, uflipper->GetRotation());
+		App->player->uFlipper->GetPosition(x, y);
+		App->renderer->Blit(upperFlipper, x, y, NULL, 1.0f, App->player->uFlipper->GetRotation());
 	}
 
 	// ray -----------------

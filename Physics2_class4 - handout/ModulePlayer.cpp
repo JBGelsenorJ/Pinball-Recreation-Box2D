@@ -271,8 +271,8 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 void ModulePlayer::setLeftFlipper() {
 
 
-	lFlipper = App->physics->CreateRectangle(210, 778, 73, 20, b2_dynamicBody);
-	lFlipperPivot = App->physics->CreateCircle(182, 778, 5, b2_staticBody, 0.0f);
+	lFlipper = App->physics->CreateRectangle(218, 778, 70, 20, b2_dynamicBody);
+	lFlipperPivot = App->physics->CreateCircle(185, 778, 5, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
 
@@ -300,8 +300,8 @@ void ModulePlayer::setLeftFlipper() {
 void ModulePlayer::setRightFlipper() {
 
 
-	rFlipper = App->physics->CreateRectangle(297, 773, 69, 20, b2_dynamicBody);
-	rFlipperPivot = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.0f);
+	rFlipper = App->physics->CreateRectangle(292, 780, 70, 20, b2_dynamicBody);
+	rFlipperPivot = App->physics->CreateCircle(332, 780, 5, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
 
@@ -331,7 +331,7 @@ void ModulePlayer::setUpFlipper() {
 
 
 	uFlipper = App->physics->CreateRectangle(420, 324, 50, 20, b2_dynamicBody);
-	uFlipperPivot = App->physics->CreateCircle(425, 326, 5, b2_staticBody, 0.5f);
+	uFlipperPivot = App->physics->CreateCircle(420, 326, 5, b2_staticBody, 0.5f);
 
 	b2RevoluteJointDef revoluteJointDef;
 

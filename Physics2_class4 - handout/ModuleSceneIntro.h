@@ -30,7 +30,7 @@ public:
 	PhysBody* planet_5 = nullptr;
 	PhysBody* planet_6 = nullptr;
 	PhysBody* satelite = nullptr;
-	PhysBody* kickercloser = nullptr;
+	PhysBody* unlockerRectangle = nullptr;
 
 	PhysBody* kickercloser_sensor = nullptr;
 	PhysBody* woodensensor = nullptr;
@@ -88,7 +88,7 @@ public:
 	SDL_Texture* green_light_texture3;
 	SDL_Texture* green_dot_texture;
 	SDL_Texture* yellowstar_texture;
-	
+
 	uint kickerfx = 0;
 	uint flipperfx = 0;
 	uint startfx = 0;
@@ -116,7 +116,6 @@ public:
 	bool lightPlanet6;
 	bool lightSatellite;
 	bool lightAlien;
-	bool closekicker;
 	bool woodentransport;
 	bool lightMiniWhitePlanet;
 	bool lightMiniWhitePlanet2;
@@ -145,7 +144,7 @@ public:
 	bool lightyellowstar5;
 	bool lightyellowstar6;
 	bool lightyellowstar7;
-
+	bool unlockerClosed = false;
 	int font_score = -1;
 	uint move = 0;
 	uint cont = 0;

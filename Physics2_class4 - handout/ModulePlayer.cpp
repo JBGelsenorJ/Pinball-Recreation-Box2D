@@ -130,7 +130,6 @@ update_status ModulePlayer::Update()
 		App->audio->PlayFx(App->scene_intro->ringfx);
 		ball->body->SetTransform({ PIXEL_TO_METERS(480 + 0.2f), PIXEL_TO_METERS(700 - 0.2f) }, 0.0f);
 		ball->body->SetLinearVelocity({ 0,0 });
-		App->scene_intro->closekicker = false;
 
 		//turning off lights
 		App->scene_intro->lightgreendot = false;
@@ -262,6 +261,7 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		if (bodyA == Restart)
 		{
 			restart = true;
+			App->scene_intro->unlockerClosed = false;
 		}
 		
 	}

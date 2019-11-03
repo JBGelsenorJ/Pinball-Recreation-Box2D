@@ -97,6 +97,25 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+	//Logic Unlocker
+	/*if (unlockerClosed)
+	{
+		App->renderer->Blit(circle_robound_tx, 413, 113, &unlockerRect);
+	}*/
+	
+	//Creating a new unlocker
+	if (unlockerClosed && unlockerRectangle == nullptr)
+	{
+		unlockerRectangle = App->physics->CreateRectangle(430, 175, 2, 85, b2_staticBody);
+	}
+
+	//Destroying unlocker
+	if (!unlockerClosed && unlockerRectangle != nullptr)
+	{
+		unlockerRectangle->body->GetWorld()->DestroyBody(unlockerRectangle->body);
+		unlockerRectangle = nullptr;
+
+	}
 
 	App->renderer->Blit(background, 0, 0, NULL);
 
@@ -125,6 +144,11 @@ update_status ModuleSceneIntro::Update()
 
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
+	if (bodyA == kickerSensor)
+	{
+		unlockerClosed = true;
+	}
+
 	if (App->player->getPoints == false && (bodyA == planet_1_sensor))
 	{
 		App->player->getPoints = true;
@@ -183,11 +207,6 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	if ((bodyA == woodensensor)) {
 		App->audio->PlayFx(woodeninfx);
 		woodentransport = true;
-	}
-
-	if (bodyA == kickerSensor && closekicker == false)
-	{
-		closekicker = true;
 	}
 
 	if ((bodyA == miniPlanetSensor)) {
@@ -420,12 +439,6 @@ void ModuleSceneIntro::MapChecker()
 		App->renderer->Blit(alien_texture, 83, 292, NULL);
 	}
 
-	if (closekicker == true)
-	{
-		closekicker = false;
-		/*kickercloser = App->physics->CreateRectangle(449, 205, 10, 100,b2_dynamicBody);*/
-	}
-
 	if (woodentransport)
 	{
 		cont += 10;
@@ -593,6 +606,7 @@ void ModuleSceneIntro::MapChecker()
 	}
 	lightyellowstar7 = false;
 
+
 }
 
 void ModuleSceneIntro::CreateElements(){
@@ -635,7 +649,7 @@ void ModuleSceneIntro::CreateElements(){
 	alienSensor = App->physics->CreateCircle(96, 305, 14, b2_staticBody, 2.0f, true);
 	alienSensor->listener = this;
 
-	kickerSensor = App->physics->CreateRectangleSensor(439, 205, 10, 100);
+	kickerSensor = App->physics->CreateRectangleSensor(410, 170, 10, 100);
 	kickerSensor->listener = this;
 
 	miniPlanetSensor = App->physics->CreateCircle(196, 553, 11, b2_staticBody, 2.0f, true);
@@ -1043,6 +1057,9 @@ void ModuleSceneIntro::CreateElements(){
 	};
 
 	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f, false);
+
+	
+	
 
 }
 void ModuleSceneIntro::Score() {

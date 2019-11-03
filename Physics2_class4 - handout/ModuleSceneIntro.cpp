@@ -1006,7 +1006,7 @@ void ModuleSceneIntro::CreateElements(){
 
 	};
 	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5, false);
-	woodensensor = App->physics->CreateRectangleSensor(108, 526, 60, 40);
+	woodensensor = App->physics->CreateRectangleSensor(108, 526, 50, 40);
 	woodensensor->listener = this;
 
 	int pinball_board_middle_right[60] = {

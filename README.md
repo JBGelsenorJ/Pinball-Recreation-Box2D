@@ -20,6 +20,7 @@
 #### Activating all the green dots withouth dying is worth 200 points.
 #### If you earn 1000 points you recieve an extra live(only one time per game).
 #### Entering in the wooden planks cannon is worth 100 points.
+#### Due to some trouble for little computers to see the tile of the window we decided to implement a visual representation of the lives next to the score.
 
 ## License
 MIT License

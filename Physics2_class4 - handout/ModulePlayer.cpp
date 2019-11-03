@@ -70,6 +70,10 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 
 {
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+	{
+		lives++;
+	}
 
 	//Pushing the ball
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
@@ -267,7 +271,7 @@ void ModulePlayer::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 void ModulePlayer::setLeftFlipper() {
 
 
-	lFlipper = App->physics->CreateRectangle(210, 778, 73, 14, b2_dynamicBody);
+	lFlipper = App->physics->CreateRectangle(210, 778, 73, 20, b2_dynamicBody);
 	lFlipperPivot = App->physics->CreateCircle(182, 778, 5, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
@@ -296,7 +300,7 @@ void ModulePlayer::setLeftFlipper() {
 void ModulePlayer::setRightFlipper() {
 
 
-	rFlipper = App->physics->CreateRectangle(297, 773, 69, 14, b2_dynamicBody);
+	rFlipper = App->physics->CreateRectangle(297, 773, 69, 20, b2_dynamicBody);
 	rFlipperPivot = App->physics->CreateCircle(332, 775, 5, b2_staticBody, 0.0f);
 
 	b2RevoluteJointDef revoluteJointDef;
@@ -326,7 +330,7 @@ void ModulePlayer::setRightFlipper() {
 void ModulePlayer::setUpFlipper() {
 
 
-	uFlipper = App->physics->CreateRectangle(420, 324, 50, 14, b2_dynamicBody);
+	uFlipper = App->physics->CreateRectangle(420, 324, 50, 20, b2_dynamicBody);
 	uFlipperPivot = App->physics->CreateCircle(425, 326, 5, b2_staticBody, 0.5f);
 
 	b2RevoluteJointDef revoluteJointDef;

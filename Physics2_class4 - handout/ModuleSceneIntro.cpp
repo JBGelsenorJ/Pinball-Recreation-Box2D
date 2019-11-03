@@ -42,7 +42,7 @@ bool ModuleSceneIntro::Start()
 	green_light_texture2 = App->textures->Load("assets/greenbiglight2.png");
 	green_light_texture3 = App->textures->Load("assets/greenbiglight3.png");
 	yellowstar_texture = App->textures->Load("assets/yellowstar.png");
-	
+	heart_texture = App->textures->Load("assets/heart.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -1050,6 +1050,14 @@ void ModuleSceneIntro::CreateElements(){
 }
 void ModuleSceneIntro::Score() {
 
+	//Heart and Lives
+	App->renderer->Blit(heart_texture, 30, 45, NULL);
+	char lives_text[10];
+	sprintf_s(lives_text, 10, "%d", App->player->lives);
+	App->fonts->BlitText(55, 47, font_score, lives_text);
+
+
+	//Score
 	char score_text[10];
 	char bestScore_text[10];
 	char recentScore_text[10];

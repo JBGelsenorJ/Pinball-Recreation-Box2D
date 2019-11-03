@@ -89,6 +89,7 @@ public:
 	SDL_Texture* green_light_texture3;
 	SDL_Texture* green_dot_texture;
 	SDL_Texture* yellowstar_texture;
+	SDL_Texture* heart_texture;
 
 	uint kickerfx = 0;
 	uint flipperfx = 0;

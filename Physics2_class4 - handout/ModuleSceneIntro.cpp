@@ -711,7 +711,7 @@ void ModuleSceneIntro::CreateElements(){
 	planet_6_sensor->listener = this;
 
 	satelite = new PhysBody();
-	satelite = App->physics->CreateCircle(155, 365, 8, b2_staticBody, 1.0f);
+	satelite = App->physics->CreateCircle(155, 365, 8, b2_staticBody, 0.8f);
 	satelite_sensor = App->physics->CreateCircle(155, 365, 12, b2_staticBody, 2.0f, true);
 	satelite_sensor->listener = this;
 

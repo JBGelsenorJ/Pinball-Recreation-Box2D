@@ -45,6 +45,7 @@ bool ModuleSceneIntro::Start()
 	green_light_texture1 = App->textures->Load("assets/greenbiglight1.png");
 	green_light_texture2 = App->textures->Load("assets/greenbiglight2.png");
 	green_light_texture3 = App->textures->Load("assets/greenbiglight3.png");
+	yellowstar_texture = App->textures->Load("assets/yellowstar.png");
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -59,7 +60,10 @@ bool ModuleSceneIntro::Start()
 	woodenoutfx = App->audio->LoadFx("assets/audio/lasershot.wav");
 	miniplanetfx = App->audio->LoadFx("assets/audio/dum.wav");
 	pointfx = App->audio->LoadFx("assets/audio/beeppoint.wav");
-
+	yellowstarfx = App->audio->LoadFx("assets/audio/smalllight.wav");
+	bonusfx = App->audio->LoadFx("assets/audio/bonus.wav");
+	greenlightfx = App->audio->LoadFx("assets/audio/dinghigh.wav");
+	redplanetfx = App->audio->LoadFx("assets/audio/dinglow.wav");
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
 	//Loading fonts
@@ -252,108 +256,174 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 	if ((bodyA == miniPlanetSensor)) {
 		lightMiniWhitePlanet = true;
-
+		App->player->getPoints = true;
+		App->audio->PlayFx(miniplanetfx);
 	}
 
 	if ((bodyA == miniPlanetSensor2)) {
 		lightMiniWhitePlanet2 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(miniplanetfx);
 	}
 
 	if ((bodyA == miniPlanetSensor3)) {
 		lightMiniWhitePlanet3 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(miniplanetfx);
 	}
 
 	if ((bodyA == redPlanetSensor1)) {
 		lightRedPlanet1 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(redplanetfx);
 	}
 
 	if ((bodyA == redPlanetSensor2)) {
 		lightRedPlanet2 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(redplanetfx);
 	}
 
 	if ((bodyA == redPlanetSensor3)) {
 		lightRedPlanet3 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(redplanetfx);
 	}
 
-	if ((bodyA == miniPlanetSensor) || (bodyA == miniPlanetSensor2) || (bodyA == miniPlanetSensor3)) {
-		App->audio->PlayFx(miniplanetfx);
-	}
-
-
-	if ((bodyA == miniPlanetSensor)) {
-		App->audio->PlayFx(miniplanetfx);
-	}
 	if ((bodyA == greendot))
 	{
 		lightgreendot = true;
 		App->audio->PlayFx(pointfx);
+		App->player->getPoints = true;
 	}
 	if ((bodyA == greendot2))
 	{
 		lightgreendot2 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot3))
 	{
 		lightgreendot3 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot4))
 	{
 		lightgreendot4 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot5))
 	{
 		lightgreendot5 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot6))
 	{
 		lightgreendot6 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot7))
 	{
 		lightgreendot7 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot8))
 	{
 		lightgreendot8 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot9))
 	{
 		lightgreendot9 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot10))
 	{
 		lightgreendot10 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 	if ((bodyA == greendot11))
 	{
 		lightgreendot11 = true;
+		App->player->getPoints = true;
 		App->audio->PlayFx(pointfx);
 	}
 
 	if ((bodyA == greenBigSensor1))
 	{
 		lightGreenBig1 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(greenlightfx);
 	}
 
 	if ((bodyA == greenBigSensor2))
 	{
 		lightGreenBig2 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(greenlightfx);
 	}
 
 	if ((bodyA == greenBigSensor3))
 	{
 		lightGreenBig3 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(greenlightfx);
 	}
+	if ((bodyA == yellowstar))
+	{
+		lightyellowstar = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(yellowstarfx);
+	}
+	if ((bodyA == yellowstar2))
+	{
+		lightyellowstar2 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(yellowstarfx);
+	}
+	if ((bodyA == yellowstar3))
+	{
+		lightyellowstar3 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(yellowstarfx);
+	}
+	if ((bodyA == yellowstar4))
+	{
+		lightyellowstar4 = true;
+		App->audio->PlayFx(yellowstarfx);
+		App->player->getPoints = true;
+	}
+	if ((bodyA == yellowstar5))
+	{
+		lightyellowstar5 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(yellowstarfx);
+	}
+	if ((bodyA == yellowstar6))
+	{
+		lightyellowstar6 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(yellowstarfx);
+	}
+	if ((bodyA == yellowstar7))
+	{
+		lightyellowstar7 = true;
+		App->player->getPoints = true;
+		App->audio->PlayFx(yellowstarfx);
+	}
+
 }
+
+
+
 
 
 void ModuleSceneIntro::MapChecker()
@@ -564,6 +634,48 @@ void ModuleSceneIntro::MapChecker()
 		App->renderer->Blit(green_dot_texture, 81, 263, NULL);
 	}
 
+	if (lightyellowstar)
+	{
+		App->renderer->Blit(yellowstar_texture, 381, 228, NULL);
+	}
+	lightyellowstar = false;
+
+	if (lightyellowstar2)
+	{
+		App->renderer->Blit(yellowstar_texture, 365, 268, NULL);
+	}
+	lightyellowstar2 = false;
+
+	if (lightyellowstar3)
+	{
+		App->renderer->Blit(yellowstar_texture, 352, 307, NULL);
+	}
+	lightyellowstar3 = false;
+
+	if (lightyellowstar4)
+	{
+		App->renderer->Blit(yellowstar_texture, 339, 344, NULL);
+	}
+	lightyellowstar4 = false;
+
+	if (lightyellowstar5)
+	{
+		App->renderer->Blit(yellowstar_texture, 328, 382, NULL);
+	}
+	lightyellowstar5 = false;
+
+	if (lightyellowstar6)
+	{
+		App->renderer->Blit(yellowstar_texture, 319, 427, NULL);
+	}
+	lightyellowstar6 = false;
+
+	if (lightyellowstar7)
+	{
+		App->renderer->Blit(yellowstar_texture, 312, 470, NULL);
+	}
+	lightyellowstar7 = false;
+
 }
 
 void ModuleSceneIntro::CreateElements(){
@@ -669,6 +781,27 @@ void ModuleSceneIntro::CreateElements(){
 
 	greenBigSensor3 = App->physics->CreateCircle(388, 427, 10, b2_staticBody, 2.0f, true);
 	greenBigSensor3->listener = this;
+
+	yellowstar = App->physics->CreateCircle(384, 232, 4, b2_staticBody, 2.0f, true);
+	yellowstar->listener = this;
+
+	yellowstar2 = App->physics->CreateCircle(367, 272, 4, b2_staticBody, 2.0f, true);
+	yellowstar2->listener = this;
+
+	yellowstar3 = App->physics->CreateCircle(355, 311, 4, b2_staticBody, 2.0f, true);
+	yellowstar3->listener = this;
+
+	yellowstar4 = App->physics->CreateCircle(342, 348, 4, b2_staticBody, 2.0f, true);
+	yellowstar4->listener = this;
+
+	yellowstar5 = App->physics->CreateCircle(331, 386, 4, b2_staticBody, 2.0f, true);
+	yellowstar5->listener = this;
+
+	yellowstar6 = App->physics->CreateCircle(322, 431, 4, b2_staticBody, 2.0f, true);
+	yellowstar6->listener = this;
+
+	yellowstar7 = App->physics->CreateCircle(315, 474, 4, b2_staticBody, 2.0f, true);
+	yellowstar7->listener = this;
 
 	int top_block[72] = {
 	259, 217,
@@ -993,7 +1126,5 @@ void ModuleSceneIntro::CreateElements(){
 	};
 
 	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f, false);
-
-
 
 }

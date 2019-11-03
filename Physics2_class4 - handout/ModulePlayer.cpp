@@ -171,6 +171,7 @@ update_status ModulePlayer::Update()
 	if (App->scene_intro->lightgreendot == true && App->scene_intro->lightgreendot2 == true && App->scene_intro->lightgreendot3 == true && App->scene_intro->lightgreendot4 == true && App->scene_intro->lightgreendot5 == true && App->scene_intro->lightgreendot6 == true && App->scene_intro->lightgreendot7 == true && App->scene_intro->lightgreendot8 == true && App->scene_intro->lightgreendot9 == true && App->scene_intro->lightgreendot10 == true && App->scene_intro->lightgreendot11 == true)
 	{
 		score += 200;
+		App->audio->PlayFx(App->scene_intro->bonusfx);
 		App->scene_intro->lightgreendot = false;
 		App->scene_intro->lightgreendot2 = false;
 		App->scene_intro->lightgreendot3 = false;

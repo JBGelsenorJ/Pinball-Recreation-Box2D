@@ -65,6 +65,13 @@ public:
 	PhysBody* greenBigSensor1 = nullptr;
 	PhysBody* greenBigSensor2 = nullptr;
 	PhysBody* greenBigSensor3 = nullptr;
+	PhysBody* yellowstar = nullptr;
+	PhysBody* yellowstar2 = nullptr;
+	PhysBody* yellowstar3 = nullptr;
+	PhysBody* yellowstar4 = nullptr;
+	PhysBody* yellowstar5 = nullptr;
+	PhysBody* yellowstar6 = nullptr;
+	PhysBody* yellowstar7 = nullptr;
 
 	bool sensed = false;
 
@@ -84,6 +91,7 @@ public:
 	SDL_Texture* green_light_texture2;
 	SDL_Texture* green_light_texture3;
 	SDL_Texture* green_dot_texture;
+	SDL_Texture* yellowstar_texture;
 	
 	uint kickerfx = 0;
 	uint flipperfx = 0;
@@ -96,6 +104,10 @@ public:
 	uint woodenoutfx = 0;
 	uint miniplanetfx = 0;
 	uint pointfx = 0;
+	uint yellowstarfx = 0;
+	uint bonusfx = 0;
+	uint greenlightfx = 0;
+	uint redplanetfx = 0;
 
 	p2Point<int> ray;
 	
@@ -130,6 +142,13 @@ public:
 	bool lightGreenBig1;
 	bool lightGreenBig2;
 	bool lightGreenBig3;
+	bool lightyellowstar;
+	bool lightyellowstar2;
+	bool lightyellowstar3;
+	bool lightyellowstar4;
+	bool lightyellowstar5;
+	bool lightyellowstar6;
+	bool lightyellowstar7;
 
 	int font_score = -1;
 	uint move = 0;

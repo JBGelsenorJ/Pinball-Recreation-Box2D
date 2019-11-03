@@ -75,6 +75,10 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		force_counter += 1;
+		if (force_counter > 100)
+		{
+			force_counter = 100;
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)

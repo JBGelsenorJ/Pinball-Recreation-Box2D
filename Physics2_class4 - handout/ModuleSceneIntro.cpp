@@ -12,7 +12,6 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	circle = box = rick = NULL;
 	ray_on = false;
 	sensed = false;
 }
@@ -29,9 +28,6 @@ bool ModuleSceneIntro::Start()
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	//Loading textures
-	circle = App->textures->Load("pinball/wheel.png"); 
-	box = App->textures->Load("pinball/crate.png");
-	rick = App->textures->Load("pinball/rick_head.png");
 	background = App->textures->Load("assets/pinball_board_definitivo.png");
 	planet_1_shine = App->textures->Load("assets/planet1.png");
 	planet_2_shine = App->textures->Load("assets/planet2.png");
@@ -79,6 +75,21 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+	//Unloading all textures just in case
+	App->textures->Unload(background);
+	App->textures->Unload(planet_1_shine);
+	App->textures->Unload(planet_2_shine);
+	App->textures->Unload(planet_5_shine);
+	App->textures->Unload(planet_6_shine);
+	App->textures->Unload(satellite);
+	App->textures->Unload(alien_texture);
+	App->textures->Unload(miniplanet_texture);
+	App->textures->Unload(red_planet_texture);
+	App->textures->Unload(green_light_texture1);
+	App->textures->Unload(green_light_texture2);
+	App->textures->Unload(green_light_texture3);
+	App->textures->Unload(green_dot_texture);
+	App->textures->Unload(yellowstar_texture);
 
 	return true;
 }
@@ -89,89 +100,14 @@ update_status ModuleSceneIntro::Update()
 
 	App->renderer->Blit(background, 0, 0, NULL);
 
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		ray_on = !ray_on;
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
-	}
-
-	// Prepare for raycast ------------------------------------------------------
-	
-	iPoint mouse;
-	mouse.x = App->input->GetMouseX();
-	mouse.y = App->input->GetMouseY();
-	int ray_hit = ray.DistanceTo(mouse);
-
-	fVector normal(0.0f, 0.0f);
-
-	// All draw functions ------------------------------------------------------
-	p2List_item<PhysBody*>* c = circles.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-
-	c = boxes.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
-		if(ray_on)
-		{
-			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
-			if(hit >= 0)
-				ray_hit = hit;
-		}
-		c = c->next;
-	}
-
-	c = ricks.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-
-
-	// ray -----------------
-	if(ray_on == true)
-	{
-		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
-		destination.Normalize();
-		destination *= ray_hit;
-
-		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
-
-		if(normal.x != 0.0f)
-			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
-	}
+	//Mouse and Raycast
+	MouseandRaycast();
 
 	// Function to check all colisions with sensors 
 	MapChecker();
 
 	//Score
-	char score_text[10];
-	char bestScore_text[10];
-	char recentScore_text[10];
-	
-	sprintf_s(score_text, 10, "%d", App->player->score);
-	sprintf_s(bestScore_text, 10, "%d", App->player->bestScore);
-	sprintf_s(recentScore_text, 10, "%d", App->player->recentScore);
-	
-	App->fonts->BlitText(250, 43, font_score, score_text);
-	App->fonts->BlitText(250, 20, font_score, bestScore_text);
-	App->fonts->BlitText(420, 43, font_score, recentScore_text);
+	Score();
 
 	//Setting Title
 	char lives[4];
@@ -1108,4 +1044,50 @@ void ModuleSceneIntro::CreateElements(){
 
 	App->physics->CreateChain(0, 0, pinball_board_middle_right, 60, b2_staticBody, 0.5f, false);
 
+}
+void ModuleSceneIntro::Score() {
+
+	char score_text[10];
+	char bestScore_text[10];
+	char recentScore_text[10];
+
+	sprintf_s(score_text, 10, "%d", App->player->score);
+	sprintf_s(bestScore_text, 10, "%d", App->player->bestScore);
+	sprintf_s(recentScore_text, 10, "%d", App->player->recentScore);
+
+	App->fonts->BlitText(250, 43, font_score, score_text);
+	App->fonts->BlitText(250, 20, font_score, bestScore_text);
+	App->fonts->BlitText(420, 43, font_score, recentScore_text);
+
+
+}
+void ModuleSceneIntro::MouseandRaycast() {
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		ray_on = !ray_on;
+		ray.x = App->input->GetMouseX();
+		ray.y = App->input->GetMouseY();
+	}
+
+	// Prepare for raycast ------------------------------------------------------
+
+	iPoint mouse;
+	mouse.x = App->input->GetMouseX();
+	mouse.y = App->input->GetMouseY();
+	int ray_hit = ray.DistanceTo(mouse);
+
+	fVector normal(0.0f, 0.0f);
+
+	// ray -----------------
+	if (ray_on == true)
+	{
+		fVector destination(mouse.x - ray.x, mouse.y - ray.y);
+		destination.Normalize();
+		destination *= ray_hit;
+
+		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
+
+		if (normal.x != 0.0f)
+			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
+	}
 }

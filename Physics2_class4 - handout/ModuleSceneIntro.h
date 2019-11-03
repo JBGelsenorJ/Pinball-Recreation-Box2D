@@ -18,11 +18,10 @@ public:
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 	void MapChecker();
 	void CreateElements();
+	void Score();
+	void MouseandRaycast();
 
 public:
-	p2List<PhysBody*> circles;
-	p2List<PhysBody*> boxes;
-	p2List<PhysBody*> ricks;
 
 	PhysBody* planet_1 = nullptr;
 	PhysBody* planet_2 = nullptr;
@@ -75,9 +74,6 @@ public:
 
 	bool sensed = false;
 
-	SDL_Texture* circle;
-	SDL_Texture* box;
-	SDL_Texture* rick;
 	SDL_Texture* background;
 	SDL_Texture* planet_1_shine;
 	SDL_Texture* planet_2_shine;

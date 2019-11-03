@@ -70,6 +70,10 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 
 {
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+	{
+		lives++;
+	}
 
 	//Pushing the ball
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)

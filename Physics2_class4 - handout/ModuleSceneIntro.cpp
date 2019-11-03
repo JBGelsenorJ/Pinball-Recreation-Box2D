@@ -513,49 +513,30 @@ void ModuleSceneIntro::MapChecker()
 		App->renderer->Blit(miniplanet_texture, 185, 544, NULL);
 	}
 
-	lightMiniWhitePlanet = false;
-
 	if (lightMiniWhitePlanet2 == true)
 	{
 		App->renderer->Blit(miniplanet_texture, 214, 506, NULL);
 	}
-
-	lightMiniWhitePlanet2 = false;
 
 	if (lightMiniWhitePlanet3 == true)
 	{
 		App->renderer->Blit(miniplanet_texture, 161, 583, NULL);
 	}
 
-	lightMiniWhitePlanet3 = false;
-
 	if (lightRedPlanet1 == true)
 	{
 		App->renderer->Blit(red_planet_texture, 289, 554, NULL);
 	}
-
-	lightRedPlanet1 = false;
 
 	if (lightRedPlanet2 == true)
 	{
 		App->renderer->Blit(red_planet_texture, 325, 592, NULL);
 	}
 
-	lightRedPlanet2 = false;
-
 	if (lightRedPlanet3 == true)
 	{
 		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
 	}
-
-	lightRedPlanet3 = false;
-
-	if (lightRedPlanet3 == true)
-	{
-		App->renderer->Blit(red_planet_texture, 356, 635, NULL);
-	}
-
-	lightRedPlanet3 = false;
 
 	if (lightGreenBig1 == true)
 	{
@@ -582,21 +563,21 @@ void ModuleSceneIntro::MapChecker()
 	if (lightgreendot == true)
 
 	{
-		App->renderer->Blit(green_dot_texture, 425, 136, NULL);
+		App->renderer->Blit(green_dot_texture, 420, 130, NULL);
 	}
 	if (lightgreendot2 == true)
 	{
-		App->renderer->Blit(green_dot_texture, 387, 121, NULL);
+		App->renderer->Blit(green_dot_texture, 382, 116, NULL);
 	}
 
 	if (lightgreendot3 == true)
 	{
-		App->renderer->Blit(green_dot_texture, 350, 113, NULL);
+		App->renderer->Blit(green_dot_texture, 345, 109, NULL);
 	}
 
 	if (lightgreendot4 == true)
 	{
-		App->renderer->Blit(green_dot_texture, 305, 114, NULL);
+		App->renderer->Blit(green_dot_texture, 299, 109, NULL);
 	}
 
 	if (lightgreendot5 == true)

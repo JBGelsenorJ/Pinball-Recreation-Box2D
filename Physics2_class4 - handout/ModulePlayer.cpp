@@ -136,6 +136,12 @@ update_status ModulePlayer::Update()
 		App->scene_intro->lightgreendot9 = false;
 		App->scene_intro->lightgreendot10 = false;
 		App->scene_intro->lightgreendot11 = false;
+		App->scene_intro->lightMiniWhitePlanet = false;
+		App->scene_intro->lightMiniWhitePlanet2 = false;
+		App->scene_intro->lightMiniWhitePlanet3 = false;
+		App->scene_intro->lightRedPlanet1 = false;
+		App->scene_intro->lightRedPlanet2 = false;
+		App->scene_intro->lightRedPlanet3 = false;
 
 		if (lives > 0)
 		{
@@ -152,6 +158,7 @@ update_status ModulePlayer::Update()
 				bestScore = recentScore;
 			}
 			
+			getBonus = true;
 			score = 0;
 			
 		}

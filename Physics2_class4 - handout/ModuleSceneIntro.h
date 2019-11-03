@@ -20,6 +20,7 @@ public:
 	void CreateElements();
 	void Score();
 	void MouseandRaycast();
+	void kickerCloser();
 
 public:
 
@@ -104,6 +105,7 @@ public:
 	uint bonusfx = 0;
 	uint greenlightfx = 0;
 	uint redplanetfx = 0;
+	uint closerfx = 0;
 
 	p2Point<int> ray;
 	

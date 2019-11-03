@@ -42,6 +42,7 @@ bool ModuleSceneIntro::Start()
 	green_light_texture2 = App->textures->Load("assets/greenbiglight2.png");
 	green_light_texture3 = App->textures->Load("assets/greenbiglight3.png");
 	yellowstar_texture = App->textures->Load("assets/yellowstar.png");
+	
 
 	//Loading FX
 	kickerfx = App->audio->LoadFx("assets/audio/start.wav");
@@ -60,6 +61,8 @@ bool ModuleSceneIntro::Start()
 	bonusfx = App->audio->LoadFx("assets/audio/bonus.wav");
 	greenlightfx = App->audio->LoadFx("assets/audio/dinghigh.wav");
 	redplanetfx = App->audio->LoadFx("assets/audio/dinglow.wav");
+	closerfx = App->audio->LoadFx("assets/audio/scifi1.wav");
+
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
 	//Loading fonts
@@ -97,27 +100,10 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	//Logic Unlocker
-	/*if (unlockerClosed)
-	{
-		App->renderer->Blit(circle_robound_tx, 413, 113, &unlockerRect);
-	}*/
-	
-	//Creating a new unlocker
-	if (unlockerClosed && unlockerRectangle == nullptr)
-	{
-		unlockerRectangle = App->physics->CreateRectangle(430, 175, 2, 85, b2_staticBody);
-	}
-
-	//Destroying unlocker
-	if (!unlockerClosed && unlockerRectangle != nullptr)
-	{
-		unlockerRectangle->body->GetWorld()->DestroyBody(unlockerRectangle->body);
-		unlockerRectangle = nullptr;
-
-	}
-
 	App->renderer->Blit(background, 0, 0, NULL);
+
+	//Closer
+	kickerCloser();
 
 	//Mouse and Raycast
 	MouseandRaycast();
@@ -1020,7 +1006,7 @@ void ModuleSceneIntro::CreateElements(){
 
 	};
 	App->physics->CreateChain(0, 0, wooden_planks, 26, b2_staticBody, 0.5, false);
-	woodensensor = App->physics->CreateRectangleSensor(108, 526, 20, 40);
+	woodensensor = App->physics->CreateRectangleSensor(108, 526, 60, 40);
 	woodensensor->listener = this;
 
 	int pinball_board_middle_right[60] = {
@@ -1076,6 +1062,29 @@ void ModuleSceneIntro::Score() {
 	App->fonts->BlitText(250, 20, font_score, bestScore_text);
 	App->fonts->BlitText(420, 43, font_score, recentScore_text);
 
+
+}
+void ModuleSceneIntro::kickerCloser() {
+
+	//Logic Unlocker
+/*if (unlockerClosed)
+{
+	App->renderer->Blit(circle_robound_tx, 413, 113, &unlockerRect);
+}*/
+
+//Creating a new unlocker
+	if (unlockerClosed && unlockerRectangle == nullptr)
+	{
+		unlockerRectangle = App->physics->CreateRectangle(430, 175, 2, 85, b2_staticBody);
+	}
+
+	//Destroying unlocker
+	if (!unlockerClosed && unlockerRectangle != nullptr)
+	{
+		unlockerRectangle->body->GetWorld()->DestroyBody(unlockerRectangle->body);
+		unlockerRectangle = nullptr;
+
+	}
 
 }
 void ModuleSceneIntro::MouseandRaycast() {
